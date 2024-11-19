@@ -6,11 +6,11 @@ execute:
   echo: true
 
 book:
-  title: "YOUR PROJECT TITLE"
+  title: "MTA ridership Analysis"
   author:
-    - AUTHOR1 (UNI1)
-    - AUTHOR2 (UNI2)
-  repo-url: https://github.com/YOUR_GITHUB_ACCOUNT/REPO_NAME
+    - Balaganesh Manikandan (bm3237)
+    - Rohit Sadavarte (rss2251)
+  repo-url: https://github.com/sadavarterohit/mta-ridership
   date: today
   page-footer:
     right: |
