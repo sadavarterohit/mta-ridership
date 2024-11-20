@@ -1,1 +1,7 @@
 # Introduction
+
+The subway is one of the most iconic parts of New York City! It's an iconic and historic mode of transportation that has made its way into every New Yorker's life. So much so, that there are entire art movements dedicated to life in New York on the subway lines. A major chunk of critical commentary about the NYC subway is the delays and maintenance activities. The subway trains go into delays sometimes unexpectedly, usually due to something blocking the track, sometimes due to individuals activities on these subways etc.
+
+These delays cause major problems to all those who use the subway on a regular basis, they need to find alternate modes of transport, and are delayed into getting on with their lives on quite a regular basis. 
+
+This study is aimed at finding the patterns in these delays, which may be cruicial for city policy makers, and residents alike, about the actual frequency and intensity of delays across different subway lines, through the course of a long period of time, along with the reasons for these delays. 
