@@ -2,4 +2,115 @@
 
 ## Description
 
+There are four main datasets that we plan to use for this project. All of the data is collected by the Metropolitan Transportation Authority, and were imported by directly downloading the CSV files from the official website.
+
+### MTA Subway Trains Delayed: Beginning 2020
+
+This dataset ([source](https://data.ny.gov/Transportation/MTA-Subway-Trains-Delayed-Beginning-2020/wx2t-qtaz/about_data)) contains the number and percentage of subway trains delayed per weekday, broken down into specific delay categories (from 2020 onward). According to the source, the data on train arrivals is manually entered into a digital dispatching tool, and the number of trains delayed by more than five minutes or missing scheduled stops is summed up. Additionally, every delay is manually assigned a category and subcategory. Thus, the assignment of categories to delays depends on the subjective judgment of the dispatcher, and in some cases, the delays may be caused by more than one cause (which cannot be recorded in this format). The frequency of updates to this dataset varies widely, but it has been updated at least once every month. As of 11/19/2024, the dataset has 39051 rows and 7 columns.
+
+The following columns are included in the data:
+
+1.  month - The month in which the delays occur
+2.  division - The subway line division, lettered or numbered
+3.  line - The subway line
+4.  day_type - Whether the day is a weekday or a weekend
+5.  reporting_category - One of six categories causing the delays
+6.  subcategory - The subcategory of the delays
+7.  delays - The number of train delays for the category and time period
+
+### MTA Service Alerts: Beginning April 2020
+
+This dataset ([source](https://data.ny.gov/Transportation/MTA-Service-Alerts-Beginning-April-2020/7kct-peq7/about_data)) contains details of service alerts causing route changes in the MTA from April 2020 onward. Note that this contains service changes of MTA buses as well, but for now we are interested in the MTA subway alone. Real-time service alerts are first drafted within the MTA alert system, and then disseminated via various channels in real time, while planned alerts are entered into the system ahead of time. The frequency of updates to this dataset varies, but it has been updated at least once every month on average. As of 11/19/2024, the dataset has 351631 rows and 9 columns.
+
+The following columns are included in the data:
+
+1.  Alert ID
+2.  Event ID
+3.  Update Number
+4.  Date
+5.  Agency - Transit agency associated with the event (we are interested in the NYC subway)
+6.  Status Label - Pipe-delimited list of service statuses
+7.  Affected - Pipe-delimited list of affected routes
+8.  Header - High-level overview of service impact
+9.  Description - Additional information related to the alert
+
+### MTA Subway Wait Assessment: Beginning 2020
+
+This dataset ([source](https://data.ny.gov/Transportation/MTA-Subway-Wait-Assessment-Beginning-2020/6b7q-snec/about_data)) measures how regularly trains are spaced on the MTA subway. Subway schedule data, including service changes, and actual train movement for each day are compiled into a pair of timetables, while the actual train movement and distance data come from a variety of sources. The dataset appears to have been updated at least once every month, and the data has 5306 rows and 8 columns as of 11/19/2024.
+
+The following columns are included in the data:
+
+1.  month
+2.  division - The subway line division, lettered or numbered
+3.  line - The subway line
+4.  day_type - Whether the day is a weekday or a weekend
+5.  period - Whether peak or off-peak service
+6.  num_timepoints_passing_wait_assessment - Number of scheduled timepoints where trips pass the wait assessment standard
+7.  num_sched_timepoints - Number of scheduled timepoints
+8.  wait assessment -  Percentage of trips that pass the wait assessment
+
+### MTA Daily Ridership Data: Beginning 2020
+
+This dataset ([source](https://data.ny.gov/Transportation/MTA-Daily-Ridership-Data-Beginning-2020/vxuj-8kew/about_data)) provides ridership and traffic estimates for subways, buses, the LIRR and other public transport, beginning 3/1/2020. A percentage comparison against a pre-pandemic date is also given in the dataset. The subway data in this dataset (which we are primarily interested in) are determined from MetroCard and OMNY swipes/taps at stations. In contrast to the other datasets, this dataset appears to be updated once every weekday. As of 11/19/2024, the dataset has 1724 rows and 15 columns.
+
+The following columns are included in the data:
+
+1.  Date
+2.  Subways: Total Estimated Ridership
+3.  Subways: % of Comparable Pre-Pandemic Day
+4.  Buses: Total Estimated Ridership
+5.  Buses: % of Comparable Pre-Pandemic Day
+6.  LIRR: Total Estimated Ridership
+7.  LIRR: % of Comparable Pre-Pandemic Day
+8.  Metro-North: Total Estimated Ridership
+9.  Metro-North: % of Comparable Pre-Pandemic Day
+10. Access-A-Ride: Total Scheduled Trips
+11. Access-A-Ride: % of Comparable Pre-Pandemic Day
+12. Bridges and Tunnels: Total Traffic
+13. Bridges and Tunnels: % of Comparable Pre-Pandemic Day
+14. Staten Island Railway: Total Estimated Ridership
+15. Staten Island Railway: % of Comparable Pre-Pandemic Day
+
 ## Missing value analysis
+
+```{r, echo=FALSE}
+#| warning: false
+library(tidyverse)
+library(redav)
+```
+
+### MTA Subway Trains Delayed: Beginning 2020
+
+```{r}
+#| warning: false
+subway_train_delays <- read_csv("data/MTA_Subway_Trains_Delayed__Beginning_2020_20241118.csv")
+plot_missing(subway_train_delays, num_char = 8)
+```
+Here, the `subcategory` field is missing in less than 12.5% of the rows, while all the other values are present in all rows.
+
+### MTA Service Alerts: Beginning April 2020
+
+```{r}
+#| warning: false
+mta_service_alerts <- read_csv("data/MTA_Service_Alerts__Beginning_April_2020_20241118.csv")
+plot_missing(mta_service_alerts, num_char = 7, max_cols = 4)
+```
+Here, in about 62.5% of the rows only the `Description` field is missing, while there are a few rows where the `Affected` and the `Header` fields are missing as well.
+
+### MTA Subway Wait Assessment: Beginning 2020
+
+```{r}
+#| warning: false
+subway_wait_assessment <- read_csv("data/MTA_Subway_Wait_Assessment__Beginning_2020_20241119.csv")
+plot_missing(subway_wait_assessment, num_char = 7)
+```
+This dataset has no missing values.
+
+### MTA Daily Ridership Data: Beginning 2020
+
+```{r}
+#| warning: false
+mta_daily_ridership <- read_csv("data/MTA_Daily_Ridership_Data__Beginning_2020_20241120.csv")
+plot_missing(mta_daily_ridership, num_char = 5, max_cols = 8)
+```
+This dataset has no missing values.
