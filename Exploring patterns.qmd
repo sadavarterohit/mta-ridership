@@ -1,0 +1,334 @@
+```{r}
+library(tidyverse)
+library(dplyr)
+subway_train_delays <- read_csv("data/MTA_Subway_Trains_Delayed__Beginning_2020_20241118.csv")
+mta_service_alerts <- read_csv("data/MTA_Service_Alerts__Beginning_April_2020_20241118.csv")
+subway_wait_assessment <- read_csv("data/MTA_Subway_Wait_Assessment__Beginning_2020_20241119.csv")
+mta_daily_ridership <- read_csv("data/MTA_Daily_Ridership_Data__Beginning_2020_20241120.csv")
+```
+
+
+# Results
+```{r}
+#| warning: false
+subway_train_delays |> head()
+```
+```{r}
+```
+
+
+```{r}
+delays_category <- subway_train_delays[,!names(subway_train_delays) %in% c("subcategory")]
+```
+
+
+```{r}
+pdf |> head()
+```
+
+
+```{r}
+pdf<- delays_category |> group_by(line, reporting_category, month) |> summarise(delays = sum(delays))
+```
+```{r}
+ggplot(pdf, aes(x = month, y = delays)) +
+  #geom_line(size = 1, color = "blue") +
+  geom_point(size = 1, color = "cornflowerblue") +
+  labs(
+    title = "Delays Over Time by Line",
+    x = "Month",
+    y = "Delays"
+  ) +
+  facet_wrap(~line, scales = "free_y") +  # Facet over 'line', allowing independent y-axis scales
+  theme_minimal() +
+  theme(
+    text = element_text(size = 14),
+    strip.text = element_text(face = "bold"),
+    legend.position = "none"
+  )
+```
+
+```{r}
+max_delays <- pdf %>%
+  group_by(month) %>%
+  summarize(max_delay = sum(delays))
+
+# Create the plot
+ggplot(max_delays, aes(x = month, y = max_delay)) +
+  geom_line(size = 1, color = "red") +
+  geom_point(size = 3, color = "darkred") +
+  labs(
+    title = "Maximum Delays per Month",
+    x = "Month",
+    y = "Maximum Delay"
+  ) +
+  theme_minimal() +
+  theme(
+    text = element_text(size = 14),
+    legend.position = "none"
+  )
+```
+```{r}
+library(ggplot2)
+library(dplyr)
+
+# Identify the line with the maximum delays per month
+max_delays_lines <- pdf %>%
+  group_by(month) %>%
+  filter(delays == max(delays)) %>%
+  ungroup()
+
+# Plot the maximum delays per month with their respective lines
+ggplot(max_delays_lines, aes(x = month, y = delays, color = line, group = line)) +
+  #geom_line(size = 1) +
+  geom_point(size = 3) +
+  labs(
+    title = "Lines with Maximum Delays per Month",
+    x = "Month",
+    y = "Delays",
+    color = "Line"
+  ) +
+  theme_minimal() +
+  theme(
+    text = element_text(size = 14),
+    legend.position = "right"
+  )
+```
+
+
+```{r}
+library(dplyr)
+
+# Define a mapping of subway lines to their respective groups
+subway_groups <- data.frame(
+  line = c("1", "2", "3", "4", "5", "6", "7", "A", "C", "E", "B", "D", "F", "M", "G", "J", "Z", "L", "N", "Q", "R", "W"),
+  group = c(
+    "IRT - Broadway–Seventh Avenue Line",  # 1, 2, 3
+    "IRT - Broadway–Seventh Avenue Line", 
+    "IRT - Broadway–Seventh Avenue Line", 
+    "IRT - Lexington Avenue Line",         # 4, 5, 6
+    "IRT - Lexington Avenue Line", 
+    "IRT - Lexington Avenue Line", 
+    "IRT - Flushing Line",                 # 7
+    "IND - Eighth Avenue Line",            # A, C, E
+    "IND - Eighth Avenue Line", 
+    "IND - Eighth Avenue Line", 
+    "IND - Sixth Avenue Line",             # B, D, F, M
+    "IND - Sixth Avenue Line", 
+    "IND - Sixth Avenue Line", 
+    "IND - Sixth Avenue Line", 
+    "IND - Crosstown Line",                # G
+    "BMT - Nassau Street Line",            # J, Z
+    "BMT - Nassau Street Line", 
+    "BMT - Canarsie Line",                 # L
+    "BMT - Broadway Line",                 # N, Q, R, W
+    "BMT - Broadway Line", 
+    "BMT - Broadway Line", 
+    "BMT - Broadway Line"
+  )
+)
+
+# Join the original dataset with the subway groups
+pdf_with_groups <- pdf %>%
+  left_join(subway_groups, by = "line")
+
+# View the updated dataset
+head(pdf_with_groups)
+```
+```{r fig.height=10}
+library(ggplot2)
+
+# Create the plot faceted by subway groups
+ggplot(pdf_with_groups, aes(x = month, y = delays, color = line, group = line)) +
+  geom_line(size = 1) +
+  geom_point(size = 2) +
+  facet_wrap(~group, scales = "free_y") +  # Facet by subway groups with independent y-axes
+  labs(
+    title = "Delays Over Time Faceted by Subway Groups",
+    x = "Month",
+    y = "Delays",
+    color = "Line"
+  ) +
+  theme_minimal() +
+  theme(
+    text = element_text(size = 14),
+    strip.text = element_text(face = "bold"),
+    legend.position = "bottom"
+  )
+
+```
+```{r}
+library(dplyr)
+library(ggplot2)
+
+# Calculate total delays per group and month
+total_delays_per_group <- pdf_with_groups %>%
+  group_by(group, month) %>%
+  summarize(total_delays = sum(delays, na.rm = TRUE), .groups = "drop")
+
+# Create the faceted plot
+ggplot(total_delays_per_group, aes(x = month, y = total_delays)) +
+  geom_line(size = 0.5, color = "blue") +
+  geom_point(size = 1, color = "darkblue") +
+  facet_wrap(~group, scales = "free_y") +  # Facet by subway groups with independent y-axes
+  labs(
+    title = "Total Delays Per Month Faceted by Subway Groups",
+    x = "Month",
+    y = "Total Delays"
+  ) +
+  theme_minimal() +
+  theme(
+    text = element_text(size = 14),
+    strip.text = element_text(face = "bold"),
+    legend.position = "none"
+  )
+
+```
+
+```{r fig.width=10}
+library(dplyr)
+library(ggplot2)
+
+# Calculate total delays per group and month
+total_delays_per_group <- pdf_with_groups %>%
+  group_by(group, month) %>%
+  summarize(total_delays = sum(delays, na.rm = TRUE), .groups = "drop")
+
+# Define custom colors for the subway groups (based on NYC Subway colors)
+subway_group_colors <- c(
+  "IRT - Broadway–Seventh Avenue Line" = "#EE352E", # Red
+  "IRT - Lexington Avenue Line" = "#00933C",       # Green
+  "IRT - Flushing Line" = "#B933AD",               # Purple
+  "IND - Eighth Avenue Line" = "#0039A6",          # Blue
+  "IND - Sixth Avenue Line" = "#FF6319",           # Orange
+  "IND - Crosstown Line" = "#6CBE45",              # Light Green
+  "BMT - Nassau Street Line" = "#996633",          # Brown
+  "BMT - Canarsie Line" = "#A7A9AC",               # Gray
+  "BMT - Broadway Line" = "#FCCC0A"                # Yellow
+)
+
+# Create the plot
+ggplot(total_delays_per_group, aes(x = month, y = total_delays, color = group, group = group)) +
+  geom_line(size = 1) +
+  #geom_point(size = 1) +
+  scale_color_manual(values = subway_group_colors) +
+  labs(
+    title = "Total Delays Per Month by Subway Group",
+    x = "Month",
+    y = "Total Delays",
+    color = "Subway Group"
+  ) +
+  theme_minimal() +
+  theme(
+    text = element_text(size = 14),
+    legend.position = "right"
+  )
+
+```
+```{r fig.width=10}
+library(dplyr)
+library(ggplot2)
+
+# Calculate total delays per group and month
+total_delays_per_group <- pdf_with_groups %>%
+  group_by(group, month) %>%
+  summarize(total_delays = sum(delays, na.rm = TRUE), .groups = "drop")
+
+# Define custom colors for the subway groups (based on NYC Subway colors)
+subway_group_colors <- c(
+  "IRT - Broadway–Seventh Avenue Line" = "#EE352E", # Red
+  "IRT - Lexington Avenue Line" = "#00933C",       # Green
+  "IRT - Flushing Line" = "#B933AD",               # Purple
+  "IND - Eighth Avenue Line" = "#0039A6",          # Blue
+  "IND - Sixth Avenue Line" = "#FF6319",           # Orange
+  "IND - Crosstown Line" = "#6CBE45",              # Light Green
+  "BMT - Nassau Street Line" = "#996633",          # Brown
+  "BMT - Canarsie Line" = "#A7A9AC",               # Gray 
+  "BMT - Broadway Line" = "#FCCC0A"                # Yellow
+)
+
+# Define custom legend labels, showing group name and corresponding lines
+custom_legend_labels <- c(
+  "IRT - Broadway–Seventh Avenue Line" = "1, 2, 3",
+  "IRT - Lexington Avenue Line" = "4, 5, 6",
+  "IRT - Flushing Line" = "Flushing (7)",
+  "IND - Eighth Avenue Line" = "A, C, E",
+  "IND - Sixth Avenue Line" = "B, D, F, M",
+  "IND - Crosstown Line" = "Crosstown (G)",
+  "BMT - Nassau Street Line" = "J, Z",
+  "BMT - Canarsie Line" = "L",
+  "BMT - Broadway Line" = "N, Q, R, W"
+)
+
+# Create the plot
+ggplot(total_delays_per_group, aes(x = month, y = total_delays, color = group, group = group)) +
+  geom_line(size = 1) +
+  
+  scale_color_manual(values = subway_group_colors, labels = custom_legend_labels) +
+  labs(
+    title = "Total Delays Per Month by Subway Group",
+    x = "Month",
+    y = "Total Delays",
+    color = "Subway Group (Lines)"
+  ) +
+  theme_minimal() +
+  theme(
+    text = element_text(size = 14),
+    legend.position = "right",
+    legend.title = element_text(face = "bold")
+  )
+
+```
+```{r}
+nyc_subway_lines <- c("A", "B", "C", "D", "E", "F", "G", "J", "Z", "L", "M", 
+                      "N", "Q", "R", "W", "1", "2", "3", "4", "5", "6", "7", "S")
+
+# Filter dataframe
+filtered_df <- mta_service_alerts %>%
+  group_by(`Alert ID`) %>%  # Group by Alert ID (or other identifier)
+  filter(all(nyc_subway_lines %in% Affected)) %>%
+  ungroup()
+```
+
+```{r}
+nyc_subway_lines <- c("A", "B", "C", "D", "E", "F", "G", "J", "Z", "L", "M", 
+                      "N", "Q", "R", "W", "1", "2", "3", "4", "5", "6", "7", "S")
+
+
+linewise_service_alerts <- mta_service_alerts |> separate_rows(Affected, sep = "\\|") |> 
+  filter(Affected %in% nyc_subway_lines)
+```
+```{r}
+linewise_service_alerts |> head()
+```
+```{r}
+# Create the plot
+```
+
+
+```{r}
+ggplot(linewise_service_alerts, aes(x = Affected)) +
+  geom_bar(fill = "steelblue", color = "black") +  # Bar chart
+  facet_wrap(~ `Status Label`, scales = "free_y") +  # Facet by Status Label
+  theme_minimal() +  # Minimal theme
+  labs(
+    title = "Frequency of Affected Subway Lines by Status Label",
+    x = "Subway Line",
+    y = "Frequency"
+  ) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotate x-axis labels
+
+
+
+```
+
+```{r}
+```
+```{r}
+linewise_service_alerts |>  head()
+```
+
+
+```{r}
+```
+
