@@ -1,1 +1,26 @@
 # Results
+
+```{r, echo=FALSE}
+#| warning: false
+library(tidyverse)
+library(dplyr)
+```
+
+```{r, echo=FALSE}
+# Preprocessing code for hourly ridership dataset
+hourly_subway_ridership <- read_csv("data/MTA_Subway_Hourly_Ridership_Data.csv")
+
+hourly_subway_ridership_new <- 
+  hourly_subway_ridership |> 
+  filter(transit_mode == 'subway') |>
+  mutate(year = year(as.Date(transit_timestamp)), 
+         month = months(as.Date(transit_timestamp), abbreviate = TRUE), 
+         day = weekdays(as.Date(transit_timestamp), abbreviate = TRUE)) |>
+  mutate(day_type = ifelse(day %in% c("Sat", "Sun"), 2, 1)) |>
+  select(year, month, day_type, station_complex, ridership) |> 
+  group_by(station_complex, year, month, day_type) |>
+  summarize(ridership = sum(ridership)) |>
+  ungroup()
+
+write_csv(hourly_subway_ridership_new, "data/MTA_Subway_Hourly_Ridership_Data_Modified.csv")
+```
