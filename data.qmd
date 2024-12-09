@@ -70,7 +70,7 @@ The following columns are included in the (original) data:
 
 #### Preprocessing and aggregation
 
-As mentioned earlier, the original dataset was very large and difficult to work with. We discovered that the original dataset had many columns that were not necessary for our analysis. Moreover, a major factor contributing to the size of the dataset was the fact that the ridership data was collected and stored on an hourly basis, rather than monthly. Thus, to reduce the size of the data, we performed the following steps in Google Colab (code can be viewed in the file `/preprocessing-code/MTA_Preprocessing.ipynb):
+As mentioned earlier, the original dataset was very large and difficult to work with. We discovered that the original dataset had many columns that were not necessary for our analysis. Moreover, a major factor contributing to the size of the dataset was the fact that the ridership data was collected and stored on an hourly basis, rather than monthly. Thus, to reduce the size of the data, we performed the following steps in Google Colab (code can be viewed in the file `/preprocessing-code/MTA_Preprocessing.ipynb` on GitHub):
 
 1. Filter the data by the condition `transit_mode == 'subway'`
 2. Extract the year and month of the `transit_timestamp` and store them in new columns `year` and `month`
@@ -117,7 +117,7 @@ This dataset has no missing values.
 
 ### MTA Subway Hourly Ridership: Beginning July 2020
 
-Since the original dataset is very large, we did missing value analysis on our modified dataset.
+Since the original dataset is very large, we did missing value analysis on our modified dataset. (Note: the first column represents a row index which is not relevant for our analysis)
 
 ```{r}
 #| warning: false
