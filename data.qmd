@@ -13,7 +13,7 @@ The following columns are included in the data:
 1.  month - The month in which the delays occur
 2.  division - The subway line division, lettered or numbered
 3.  line - The subway line
-4.  day_type - Whether the day is a weekday or a weekend (2)
+4.  day_type - Whether the day is a weekday (1) or a weekend (2)
 5.  reporting_category - One of six categories causing the delays
 6.  subcategory - The subcategory of the delays
 7.  delays - The number of train delays for the category and time period
