@@ -13,7 +13,7 @@ The following columns are included in the data:
 1.  month - The month in which the delays occur
 2.  division - The subway line division, lettered or numbered
 3.  line - The subway line
-4.  day_type - Whether the day is a weekday or a weekend
+4.  day_type - Whether the day is a weekday (1) or a weekend (2)
 5.  reporting_category - One of six categories causing the delays
 6.  subcategory - The subcategory of the delays
 7.  delays - The number of train delays for the category and time period
@@ -49,27 +49,36 @@ The following columns are included in the data:
 7.  num_sched_timepoints - Number of scheduled timepoints
 8.  wait assessment -  Percentage of trips that pass the wait assessment
 
-### MTA Daily Ridership Data: Beginning 2020
+### MTA Subway Hourly Ridership: Beginning July 2020
 
-This dataset ([source](https://data.ny.gov/Transportation/MTA-Daily-Ridership-Data-Beginning-2020/vxuj-8kew/about_data)) provides ridership and traffic estimates for subways, buses, the LIRR and other public transport, beginning 3/1/2020. A percentage comparison against a pre-pandemic date is also given in the dataset. The subway data in this dataset (which we are primarily interested in) are determined from MetroCard and OMNY swipes/taps at stations. In contrast to the other datasets, this dataset appears to be updated once every weekday. As of 11/19/2024, the dataset has 1724 rows and 15 columns.
+This dataset ([source](https://data.ny.gov/Transportation/MTA-Subway-Hourly-Ridership-Beginning-July-2020/wujg-7c2s/about_data)) subway ridership estimates on an hourly basis by subway station complex and class of fare payment, beginning July 2020. It captures rider entries made at subway turnstiles by using OMNY and MetroCard taps/swipes. MetroCard data is aggregated from on-premises MTA data servers, while OMNY data is provided by a third-party vendor named Cubic. This dataset appears to have multiple updates in October and November 2024. As of 12/9/2024, the dataset has about 105 million rows and 12 columns. Due to its large size (about 17 GB), we used Google Colab to aggregate and preprocess the data and reduce its size (described later).
 
-The following columns are included in the data:
+The following columns are included in the (original) data:
 
-1.  Date
-2.  Subways: Total Estimated Ridership
-3.  Subways: % of Comparable Pre-Pandemic Day
-4.  Buses: Total Estimated Ridership
-5.  Buses: % of Comparable Pre-Pandemic Day
-6.  LIRR: Total Estimated Ridership
-7.  LIRR: % of Comparable Pre-Pandemic Day
-8.  Metro-North: Total Estimated Ridership
-9.  Metro-North: % of Comparable Pre-Pandemic Day
-10. Access-A-Ride: Total Scheduled Trips
-11. Access-A-Ride: % of Comparable Pre-Pandemic Day
-12. Bridges and Tunnels: Total Traffic
-13. Bridges and Tunnels: % of Comparable Pre-Pandemic Day
-14. Staten Island Railway: Total Estimated Ridership
-15. Staten Island Railway: % of Comparable Pre-Pandemic Day
+1. transit_timestamp - Timestamp when the payment took place in local time, rounded down to the nearest hour
+2. transit_mode
+3. station_complex_id
+4. station_complex
+5. borough
+6. payment_method
+7. fare_class_category
+8. ridership
+9. transfers
+10. latitude
+11. longitude
+12. Georeference
+
+#### Preprocessing and aggregation
+
+As mentioned earlier, the original dataset was very large and difficult to work with. We discovered that the original dataset had many columns that were not necessary for our analysis. Moreover, a major factor contributing to the size of the dataset was the fact that the ridership data was collected and stored on an hourly basis, rather than monthly. Thus, to reduce the size of the data, we performed the following steps in Google Colab (code can be viewed in the file `/preprocessing-code/MTA_Preprocessing.ipynb` on GitHub):
+
+1. Filter the data by the condition `transit_mode == 'subway'`
+2. Extract the year and month of the `transit_timestamp` and store them in new columns `year` and `month`
+3. Check if the `transit_timestamp` represents a weekend or a weekday, and store the information in a new column `day_type`, in the same format as in the 'MTA Subway Trains Delayed' dataset
+4. Remove all columns except `year`, `month`, `day_type`, `station_complex`, and `ridership`
+5. Group by all the columns except `ridership` and take the sum of `ridership` for every group
+
+This effectively computes the overall monthly stationwise ridership for weekdays and weekends respectively, and reduces the size of the dataset to about 2000 KB. The new data set has 44095 rows and 5 columns.
 
 ## Missing value analysis
 
@@ -106,11 +115,13 @@ plot_missing(subway_wait_assessment, num_char = 7)
 ```
 This dataset has no missing values.
 
-### MTA Daily Ridership Data: Beginning 2020
+### MTA Subway Hourly Ridership: Beginning July 2020
+
+Since the original dataset is very large, we did missing value analysis on our modified dataset. (Note: the first column represents a row index which is not relevant for our analysis)
 
 ```{r}
 #| warning: false
-mta_daily_ridership <- read_csv("data/MTA_Daily_Ridership_Data__Beginning_2020_20241120.csv")
-plot_missing(mta_daily_ridership, num_char = 5, max_cols = 8)
+mta_ridership <- read_csv("data/MTA_Subway_Hourly_Ridership_Data_Modified_v2.csv")
+plot_missing(mta_ridership)
 ```
 This dataset has no missing values.
