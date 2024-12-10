@@ -6,21 +6,33 @@ library(tidyverse)
 library(dplyr)
 ```
 
-```{r, echo=FALSE}
-# Preprocessing code for hourly ridership dataset
-hourly_subway_ridership <- read_csv("data/MTA_Subway_Hourly_Ridership_Data.csv")
+```{r}
+#| warning: false
+# Load datasets
+subway_train_delays <- read_csv("data/MTA_Subway_Trains_Delayed__Beginning_2020_20241118.csv", show_col_types = FALSE)
+mta_service_alerts <- read_csv("data/MTA_Service_Alerts__Beginning_April_2020_20241118.csv", show_col_types = FALSE)
+subway_wait_assessment <- read_csv("data/MTA_Subway_Wait_Assessment__Beginning_2020_20241119.csv", show_col_types = FALSE)
+mta_ridership <- read_csv("data/MTA_Subway_Hourly_Ridership_Data_Modified_v2.csv", show_col_types = FALSE)
 
-hourly_subway_ridership_new <- 
-  hourly_subway_ridership |> 
-  filter(transit_mode == 'subway') |>
-  mutate(year = year(as.Date(transit_timestamp)), 
-         month = months(as.Date(transit_timestamp), abbreviate = TRUE), 
-         day = weekdays(as.Date(transit_timestamp), abbreviate = TRUE)) |>
-  mutate(day_type = ifelse(day %in% c("Sat", "Sun"), 2, 1)) |>
-  select(year, month, day_type, station_complex, ridership) |> 
-  group_by(station_complex, year, month, day_type) |>
-  summarize(ridership = sum(ridership)) |>
-  ungroup()
+```
+```{r}
+# Filter to include data after July 2020 only
+subway_train_delays_filtered <- 
+  subway_train_delays |> 
+  filter(month >= '2020-07-01')
+mta_service_alerts_filtered <- 
+  mta_service_alerts |> 
+  filter(Agency == "NYCT Subway") |> 
+  mutate(Date = as.Date(as.POSIXlt(Date, format="%m/%d/%Y %I:%M:%S %p", tz="America/New_York"))) |>
+  filter(Date >= '2020-07-01')
+subway_wait_assessment_filtered <-
+  subway_wait_assessment |>
+  filter(month >= '2020-07-01')
+```
 
-write_csv(hourly_subway_ridership_new, "data/MTA_Subway_Hourly_Ridership_Data_Modified.csv")
+```{r}
+# Remove the first column from the ridership dataset
+mta_ridership_new <- 
+  mta_ridership |>
+  select(station_complex, year, month, day_type, ridership)
 ```
