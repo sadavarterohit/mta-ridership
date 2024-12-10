@@ -38,5 +38,15 @@
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Data</span>"
     ]
+  },
+  {
+    "objectID": "results.html",
+    "href": "results.html",
+    "title": "3  Results",
+    "section": "",
+    "text": "Code\n# Load datasets\nsubway_train_delays &lt;- read_csv(\"data/MTA_Subway_Trains_Delayed__Beginning_2020_20241118.csv\", show_col_types = FALSE)\nmta_service_alerts &lt;- read_csv(\"data/MTA_Service_Alerts__Beginning_April_2020_20241118.csv\", show_col_types = FALSE)\nsubway_wait_assessment &lt;- read_csv(\"data/MTA_Subway_Wait_Assessment__Beginning_2020_20241119.csv\", show_col_types = FALSE)\nmta_ridership &lt;- read_csv(\"data/MTA_Subway_Hourly_Ridership_Data_Modified_v2.csv\", show_col_types = FALSE)\n\n\n\n\nCode\n# Filter to include data after July 2020 only\nsubway_train_delays_filtered &lt;- \n  subway_train_delays |&gt; \n  filter(month &gt;= '2020-07-01')\nmta_service_alerts_filtered &lt;- \n  mta_service_alerts |&gt; \n  filter(Agency == \"NYCT Subway\") |&gt; \n  mutate(Date = as.Date(as.POSIXlt(Date, format=\"%m/%d/%Y %I:%M:%S %p\", tz=\"America/New_York\"))) |&gt;\n  filter(Date &gt;= '2020-07-01')\nsubway_wait_assessment_filtered &lt;-\n  subway_wait_assessment |&gt;\n  filter(month &gt;= '2020-07-01')\n\n\n\n\nCode\n# Remove the first column from the ridership dataset\nmta_ridership_new &lt;- \n  mta_ridership |&gt;\n  select(station_complex, year, month, day_type, ridership)",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Results</span>"
+    ]
   }
 ]
