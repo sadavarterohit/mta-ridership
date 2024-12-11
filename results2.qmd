@@ -1,0 +1,190 @@
+=======
+# Results
+
+```{r, echo=FALSE}
+#| warning: false
+library(tidyverse)
+library(dplyr)
+```
+
+```{r, echo=FALSE}
+# Preprocessing code for hourly ridership dataset
+hourly_subway_ridership <- read_csv("data/MTA_Subway_Hourly_Ridership_Data.csv")
+
+hourly_subway_ridership_new <- 
+  hourly_subway_ridership |> 
+  filter(transit_mode == 'subway') |>
+  mutate(year = year(as.Date(transit_timestamp)), 
+         month = months(as.Date(transit_timestamp), abbreviate = TRUE), 
+         day = weekdays(as.Date(transit_timestamp), abbreviate = TRUE)) |>
+  mutate(day_type = ifelse(day %in% c("Sat", "Sun"), 2, 1)) |>
+  select(year, month, day_type, station_complex, ridership) |> 
+  group_by(station_complex, year, month, day_type) |>
+  summarize(ridership = sum(ridership)) |>
+  ungroup()
+
+write_csv(hourly_subway_ridership_new, "data/MTA_Subway_Hourly_Ridership_Data_Modified.csv")
+```
+
+```{r}
+subway_train_delays <- read_csv("data/MTA_Subway_Trains_Delayed__Beginning_2020_20241118.csv")
+mta_service_alerts <- read_csv("data/MTA_Service_Alerts__Beginning_April_2020_20241118.csv")
+subway_wait_assessment <- read_csv("data/MTA_Subway_Wait_Assessment__Beginning_2020_20241119.csv")
+mta_daily_ridership <- read_csv("data/MTA_Daily_Ridership_Data__Beginning_2020_20241120.csv")
+```
+```{r}
+delays_category <- subway_train_delays[,!names(subway_train_delays) %in% c("subcategory")]
+pdf<- delays_category |> group_by(line, reporting_category, month) |> summarise(delays = sum(delays))
+```
+```{r}
+# Define a mapping of subway lines to their respective groups
+subway_groups <- data.frame(
+  line = c("1", "2", "3", "4", "5", "6", "7", "A", "C", "E", "B", "D", "F", "M", "G", "J", "Z", "L", "N", "Q", "R", "W"),
+  group = c(
+    "IRT - Broadway–Seventh Avenue Line",  # 1, 2, 3
+    "IRT - Broadway–Seventh Avenue Line", 
+    "IRT - Broadway–Seventh Avenue Line", 
+    "IRT - Lexington Avenue Line",         # 4, 5, 6
+    "IRT - Lexington Avenue Line", 
+    "IRT - Lexington Avenue Line", 
+    "IRT - Flushing Line",                 # 7
+    "IND - Eighth Avenue Line",            # A, C, E
+    "IND - Eighth Avenue Line", 
+    "IND - Eighth Avenue Line", 
+    "IND - Sixth Avenue Line",             # B, D, F, M
+    "IND - Sixth Avenue Line", 
+    "IND - Sixth Avenue Line", 
+    "IND - Sixth Avenue Line", 
+    "IND - Crosstown Line",                # G
+    "BMT - Nassau Street Line",            # J, Z
+    "BMT - Nassau Street Line", 
+    "BMT - Canarsie Line",                 # L
+    "BMT - Broadway Line",                 # N, Q, R, W
+    "BMT - Broadway Line", 
+    "BMT - Broadway Line", 
+    "BMT - Broadway Line"
+  )
+)
+
+# Join the original dataset with the subway groups
+pdf_with_groups <- pdf %>%
+  left_join(subway_groups, by = "line")
+```
+
+```{r fig.width=10}
+library(dplyr)
+library(ggplot2)
+
+# Calculate total delays per group and month
+total_delays_per_group <- pdf_with_groups %>%
+  group_by(group, month) %>%
+  summarize(total_delays = sum(delays, na.rm = TRUE), .groups = "drop")
+
+# Define custom colors for the subway groups (based on NYC Subway colors)
+subway_group_colors <- c(
+  "IRT - Broadway–Seventh Avenue Line" = "#EE352E", # Red
+  "IRT - Lexington Avenue Line" = "#00933C",       # Green
+  "IRT - Flushing Line" = "#B933AD",               # Purple
+  "IND - Eighth Avenue Line" = "#0039A6",          # Blue
+  "IND - Sixth Avenue Line" = "#FF6319",           # Orange
+  "IND - Crosstown Line" = "#6CBE45",              # Light Green
+  "BMT - Nassau Street Line" = "#996633",          # Brown
+  "BMT - Canarsie Line" = "#A7A9AC",               # Gray 
+  "BMT - Broadway Line" = "#FCCC0A"                # Yellow
+)
+
+# Define custom legend labels, showing group name and corresponding lines
+custom_legend_labels <- c(
+  "IRT - Broadway–Seventh Avenue Line" = "1, 2, 3",
+  "IRT - Lexington Avenue Line" = "4, 5, 6",
+  "IRT - Flushing Line" = "Flushing (7)",
+  "IND - Eighth Avenue Line" = "A, C, E",
+  "IND - Sixth Avenue Line" = "B, D, F, M",
+  "IND - Crosstown Line" = "Crosstown (G)",
+  "BMT - Nassau Street Line" = "J, Z",
+  "BMT - Canarsie Line" = "L",
+  "BMT - Broadway Line" = "N, Q, R, W"
+)
+
+# Create the plot
+ggplot(total_delays_per_group, aes(x = month, y = total_delays, color = group, group = group)) +
+  geom_line(linewidth = 1) +
+  
+  scale_color_manual(values = subway_group_colors, labels = custom_legend_labels) +
+  labs(
+    title = "Total Delays Per Month by Subway Group",
+    x = "Month",
+    y = "Total Delays",
+    color = "Subway Group (Lines)"
+  ) +
+  theme_minimal() +
+  theme(
+    text = element_text(size = 14),
+    legend.position = "right",
+    legend.title = element_text(face = "bold")
+  )
+
+```
+
+```{r}
+nyc_subway_lines <- c("A", "B", "C", "D", "E", "F", "G", "J", "Z", "L", "M", 
+                      "N", "Q", "R", "W", "1", "2", "3", "4", "5", "6", "7", "S")
+
+
+linewise_service_alerts <- mta_service_alerts |> separate_rows(Affected, sep = "\\|") |> 
+  filter(Affected %in% nyc_subway_lines)
+
+
+```
+
+```{r fig.width=10}
+library(dplyr)
+library(ggplot2)
+library(lubridate)
+
+# Define subway line groups and corresponding colors
+line_groups <- c(
+  "1" = "1-2-3", "2" = "1-2-3", "3" = "1-2-3", # Group: 1, 2, 3
+  "4" = "4-5-6", "5" = "4-5-6", "6" = "4-5-6", # Group: 4, 5, 6
+  "A" = "A-C-E", "C" = "A-C-E", "E" = "A-C-E", # Group: A, C, E
+  "N" = "N-Q-R-W", "Q" = "N-Q-R-W", "R" = "N-Q-R-W", "W" = "N-Q-R-W", # Group: N, Q, R, W
+  "B" = "B-D-F-M", "D" = "B-D-F-M", "F" = "B-D-F-M", "M" = "B-D-F-M", # Group: B, D, F, M
+  "L" = "L", # Group: L
+  "G" = "G"  # Group: G
+)
+
+# Define colors for each group
+group_colors <- c(
+  "1-2-3" = "#EE352E",   # Red
+  "4-5-6" = "#00933C",   # Green
+  "A-C-E" = "#2850AD",   # Blue
+  "N-Q-R-W" = "#FCCC0A", # Yellow
+  "B-D-F-M" = "#FF6319", # Orange
+  "L" = "#A7A9AC",       # Gray
+  "G" = "#6CBE45"        # Light Green
+)
+
+# Process the dataset
+linewise_service_alerts_summary <- linewise_service_alerts %>%
+  mutate(
+    Date = mdy_hms(Date),                 # Parse Date using lubridate
+    Month_Year = floor_date(Date, "month"), # Extract Month-Year
+    Group = line_groups[Affected]        # Add Group column based on mapping
+  ) %>%
+  group_by(Group, Month_Year) %>% # Group by Group and Month-Year
+  summarise(Count = n(), .groups = "drop") # Count occurrences
+
+# Plot the alerts by subway group over time
+ggplot(linewise_service_alerts_summary, aes(x = Month_Year, y = Count, group = Group, color = Group)) +
+  geom_line(size = 1) +
+  scale_color_manual(values = group_colors) + # Use custom colors
+  labs(
+    title = "NYC Subway Alerts by Line Group",
+    x = "Month-Year",
+    y = "Total Count",
+    color = "Subway Group"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```

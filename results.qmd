@@ -1,4 +1,4 @@
-# Results
+<!-- # Results -->
 
 ```{r, echo=FALSE}
 #| warning: false
@@ -36,3 +36,4 @@ mta_ridership_new <-
   mta_ridership |>
   select(station_complex, year, month, day_type, ridership)
 ```
+
