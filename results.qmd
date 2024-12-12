@@ -53,7 +53,7 @@ Here, we see clearly that the median daily ridership for the subway is higher th
 
 This makes so that the subway system is essentially a lifeline for the city itself, and needs to be as effective as possible to ensure the best possible effects for the citizens of the city (New Yorkers - us). 
 
-## Delays in the subway?
+## Delays in the subway
 
 Let's take a look at the delays in the subway system in the city.
 
