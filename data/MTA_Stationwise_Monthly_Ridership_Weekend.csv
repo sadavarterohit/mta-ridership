@@ -1,0 +1,573 @@
+station_complex,year,month,day_type,ridership
+"14 St-Union Sq (L,N,Q,R,W,4,5,6)",2024,2024-02-01,2,396215
+"74-Broadway (7)/Jackson Hts-Roosevelt Av (E,F,M,R)",2024,2024-02-01,2,231037
+"Grand Central-42 St (S,4,5,6,7)",2023,2023-05-01,2,398817
+"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",2022,2022-06-01,2,349256
+"74-Broadway (7)/Jackson Hts-Roosevelt Av (E,F,M,R)",2021,2021-01-01,2,136674
+"74-Broadway (7)/Jackson Hts-Roosevelt Av (E,F,M,R)",2022,2022-02-01,2,163645
+"74-Broadway (7)/Jackson Hts-Roosevelt Av (E,F,M,R)",2023,2023-08-01,2,248255
+"Fulton St (A,C,J,Z,2,3,4,5)",2021,2021-06-01,2,149556
+"34 St-Penn Station (A,C,E)",2022,2022-08-01,2,208901
+"14 St-Union Sq (L,N,Q,R,W,4,5,6)",2020,2020-12-01,2,136410
+"Grand Central-42 St (S,4,5,6,7)",2020,2020-08-01,2,88447
+"Grand Central-42 St (S,4,5,6,7)",2024,2024-06-01,2,548964
+"59 St-Columbus Circle (A,B,C,D,1)",2023,2023-07-01,2,307281
+"Times Sq-42 St (N,Q,R,W,S,1,2,3,7)/42 St (A,C,E)",2022,2022-11-01,2,667924
+"47-50 Sts-Rockefeller Ctr (B,D,F,M)",2022,2022-10-01,2,159956
+"34 St-Penn Station (1,2,3)",2021,2021-06-01,2,163539
+"34 St-Penn Station (A,C,E)",2021,2021-12-01,2,207043
+"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",2021,2021-04-01,2,175630
+"47-50 Sts-Rockefeller Ctr (B,D,F,M)",2021,2021-04-01,2,34027
+Flushing-Main St (7),2021,2021-06-01,2,161366
+"47-50 Sts-Rockefeller Ctr (B,D,F,M)",2021,2021-07-01,2,60912
+"59 St-Columbus Circle (A,B,C,D,1)",2021,2021-04-01,2,111830
+"Times Sq-42 St (N,Q,R,W,S,1,2,3,7)/42 St (A,C,E)",2024,2024-06-01,2,935465
+"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",2022,2022-07-01,2,393024
+"47-50 Sts-Rockefeller Ctr (B,D,F,M)",2021,2021-10-01,2,97416
+"Fulton St (A,C,J,Z,2,3,4,5)",2021,2021-12-01,2,197658
+"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",2021,2021-08-01,2,280146
+"59 St-Columbus Circle (A,B,C,D,1)",2021,2021-03-01,2,104371
+Flushing-Main St (7),2024,2024-01-01,2,191591
+"74-Broadway (7)/Jackson Hts-Roosevelt Av (E,F,M,R)",2024,2024-10-01,2,253795
+Flushing-Main St (7),2023,2023-07-01,2,284100
+"Fulton St (A,C,J,Z,2,3,4,5)",2022,2022-07-01,2,254683
+"74-Broadway (7)/Jackson Hts-Roosevelt Av (E,F,M,R)",2021,2021-10-01,2,246389
+"34 St-Penn Station (A,C,E)",2022,2022-09-01,2,245660
+"34 St-Penn Station (1,2,3)",2021,2021-03-01,2,89334
+"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",2024,2024-03-01,2,461928
+"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",2023,2023-12-01,2,552198
+"74-Broadway (7)/Jackson Hts-Roosevelt Av (E,F,M,R)",2022,2022-11-01,2,199499
+"34 St-Penn Station (1,2,3)",2022,2022-10-01,2,285161
+"74-Broadway (7)/Jackson Hts-Roosevelt Av (E,F,M,R)",2022,2022-08-01,2,190694
+"47-50 Sts-Rockefeller Ctr (B,D,F,M)",2021,2021-08-01,2,59971
+"34 St-Penn Station (1,2,3)",2020,2020-07-01,2,59091
+"14 St-Union Sq (L,N,Q,R,W,4,5,6)",2024,2024-07-01,2,348916
+"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",2022,2022-11-01,2,381152
+"59 St-Columbus Circle (A,B,C,D,1)",2022,2022-04-01,2,244966
+"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",2021,2021-06-01,2,271589
+"Grand Central-42 St (S,4,5,6,7)",2022,2022-03-01,2,233387
+Flushing-Main St (7),2021,2021-07-01,2,190197
+"Fulton St (A,C,J,Z,2,3,4,5)",2021,2021-04-01,2,103935
+"Fulton St (A,C,J,Z,2,3,4,5)",2021,2021-03-01,2,98914
+"59 St-Columbus Circle (A,B,C,D,1)",2024,2024-05-01,2,280291
+"Grand Central-42 St (S,4,5,6,7)",2024,2024-04-01,2,405101
+Flushing-Main St (7),2024,2024-10-01,2,129606
+"Grand Central-42 St (S,4,5,6,7)",2023,2023-03-01,2,343310
+"14 St-Union Sq (L,N,Q,R,W,4,5,6)",2021,2021-06-01,2,271403
+Flushing-Main St (7),2021,2021-09-01,2,187998
+"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",2024,2024-09-01,2,377097
+"47-50 Sts-Rockefeller Ctr (B,D,F,M)",2024,2024-02-01,2,106132
+"Fulton St (A,C,J,Z,2,3,4,5)",2024,2024-01-01,2,197186
+"34 St-Penn Station (A,C,E)",2023,2023-12-01,2,362561
+"14 St-Union Sq (L,N,Q,R,W,4,5,6)",2023,2023-10-01,2,428955
+Flushing-Main St (7),2021,2021-12-01,2,165911
+"Times Sq-42 St (N,Q,R,W,S,1,2,3,7)/42 St (A,C,E)",2024,2024-09-01,2,705158
+"59 St-Columbus Circle (A,B,C,D,1)",2024,2024-04-01,2,293164
+"47-50 Sts-Rockefeller Ctr (B,D,F,M)",2023,2023-12-01,2,303143
+"14 St-Union Sq (L,N,Q,R,W,4,5,6)",2022,2022-03-01,2,289412
+"14 St-Union Sq (L,N,Q,R,W,4,5,6)",2021,2021-08-01,2,265751
+"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",2021,2021-05-01,2,269629
+Flushing-Main St (7),2022,2022-02-01,2,166292
+"Fulton St (A,C,J,Z,2,3,4,5)",2024,2024-07-01,2,272557
+"Grand Central-42 St (S,4,5,6,7)",2022,2022-01-01,2,209751
+Flushing-Main St (7),2023,2023-03-01,2,152820
+"74-Broadway (7)/Jackson Hts-Roosevelt Av (E,F,M,R)",2023,2023-02-01,2,204323
+"Times Sq-42 St (N,Q,R,W,S,1,2,3,7)/42 St (A,C,E)",2022,2022-12-01,2,732046
+"14 St-Union Sq (L,N,Q,R,W,4,5,6)",2022,2022-11-01,2,337564
+"34 St-Penn Station (1,2,3)",2022,2022-04-01,2,212406
+"Grand Central-42 St (S,4,5,6,7)",2021,2021-06-01,2,199872
+"34 St-Penn Station (A,C,E)",2022,2022-06-01,2,226866
+"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",2021,2021-07-01,2,301678
+"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",2022,2022-12-01,2,441472
+"Grand Central-42 St (S,4,5,6,7)",2022,2022-12-01,2,392637
+Flushing-Main St (7),2022,2022-05-01,2,203943
+Flushing-Main St (7),2021,2021-08-01,2,177673
+"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",2020,2020-10-01,2,171835
+"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",2024,2024-06-01,2,488519
+"34 St-Penn Station (1,2,3)",2024,2024-08-01,2,270685
+"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",2022,2022-01-01,2,263526
+"Fulton St (A,C,J,Z,2,3,4,5)",2022,2022-01-01,2,152295
+"Fulton St (A,C,J,Z,2,3,4,5)",2023,2023-05-01,2,234675
+"74-Broadway (7)/Jackson Hts-Roosevelt Av (E,F,M,R)",2021,2021-06-01,2,175233
+"47-50 Sts-Rockefeller Ctr (B,D,F,M)",2022,2022-05-01,2,115697
+"74-Broadway (7)/Jackson Hts-Roosevelt Av (E,F,M,R)",2021,2021-07-01,2,195764
+"74-Broadway (7)/Jackson Hts-Roosevelt Av (E,F,M,R)",2021,2021-02-01,2,113511
+"Fulton St (A,C,J,Z,2,3,4,5)",2020,2020-08-01,2,74644
+"34 St-Penn Station (1,2,3)",2024,2024-06-01,2,323223
+"Grand Central-42 St (S,4,5,6,7)",2024,2024-10-01,2,493266
+"47-50 Sts-Rockefeller Ctr (B,D,F,M)",2023,2023-07-01,2,128249
+"47-50 Sts-Rockefeller Ctr (B,D,F,M)",2021,2021-06-01,2,55011
+"74-Broadway (7)/Jackson Hts-Roosevelt Av (E,F,M,R)",2021,2021-08-01,2,181107
+"34 St-Penn Station (1,2,3)",2021,2021-01-01,2,90486
+Flushing-Main St (7),2020,2020-10-01,2,136471
+"Times Sq-42 St (N,Q,R,W,S,1,2,3,7)/42 St (A,C,E)",2024,2024-03-01,2,899493
+"Grand Central-42 St (S,4,5,6,7)",2024,2024-02-01,2,383651
+"Times Sq-42 St (N,Q,R,W,S,1,2,3,7)/42 St (A,C,E)",2022,2022-01-01,2,465606
+Flushing-Main St (7),2023,2023-10-01,2,251385
+"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",2023,2023-08-01,2,375000
+"34 St-Penn Station (A,C,E)",2021,2021-06-01,2,180052
+"47-50 Sts-Rockefeller Ctr (B,D,F,M)",2021,2021-09-01,2,72850
+"34 St-Penn Station (1,2,3)",2021,2021-12-01,2,191637
+"Grand Central-42 St (S,4,5,6,7)",2024,2024-03-01,2,488036
+"34 St-Penn Station (1,2,3)",2023,2023-05-01,2,231125
+"14 St-Union Sq (L,N,Q,R,W,4,5,6)",2023,2023-11-01,2,421189
+"Fulton St (A,C,J,Z,2,3,4,5)",2021,2021-02-01,2,82007
+"59 St-Columbus Circle (A,B,C,D,1)",2021,2021-01-01,2,100326
+"59 St-Columbus Circle (A,B,C,D,1)",2020,2020-12-01,2,85813
+Flushing-Main St (7),2020,2020-12-01,2,110050
+"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",2024,2024-02-01,2,359695
+"Times Sq-42 St (N,Q,R,W,S,1,2,3,7)/42 St (A,C,E)",2024,2024-02-01,2,705723
+"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",2023,2023-10-01,2,427216
+"Times Sq-42 St (N,Q,R,W,S,1,2,3,7)/42 St (A,C,E)",2023,2023-02-01,2,593024
+"Times Sq-42 St (N,Q,R,W,S,1,2,3,7)/42 St (A,C,E)",2022,2022-08-01,2,602706
+"34 St-Penn Station (A,C,E)",2020,2020-10-01,2,90624
+Flushing-Main St (7),2024,2024-07-01,2,237685
+"14 St-Union Sq (L,N,Q,R,W,4,5,6)",2023,2023-12-01,2,514141
+"59 St-Columbus Circle (A,B,C,D,1)",2023,2023-04-01,2,308308
+"59 St-Columbus Circle (A,B,C,D,1)",2023,2023-08-01,2,240901
+"34 St-Penn Station (A,C,E)",2020,2020-11-01,2,92404
+"Times Sq-42 St (N,Q,R,W,S,1,2,3,7)/42 St (A,C,E)",2020,2020-12-01,2,206241
+"47-50 Sts-Rockefeller Ctr (B,D,F,M)",2020,2020-07-01,2,17368
+Flushing-Main St (7),2024,2024-09-01,2,269693
+Flushing-Main St (7),2024,2024-03-01,2,275630
+"34 St-Penn Station (A,C,E)",2024,2024-01-01,2,277646
+"74-Broadway (7)/Jackson Hts-Roosevelt Av (E,F,M,R)",2023,2023-12-01,2,307208
+Flushing-Main St (7),2023,2023-06-01,2,239667
+"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",2022,2022-10-01,2,456824
+"59 St-Columbus Circle (A,B,C,D,1)",2022,2022-07-01,2,274671
+"Times Sq-42 St (N,Q,R,W,S,1,2,3,7)/42 St (A,C,E)",2022,2022-09-01,2,649252
+"Fulton St (A,C,J,Z,2,3,4,5)",2022,2022-03-01,2,161059
+"14 St-Union Sq (L,N,Q,R,W,4,5,6)",2024,2024-09-01,2,393597
+"47-50 Sts-Rockefeller Ctr (B,D,F,M)",2022,2022-02-01,2,91054
+"Times Sq-42 St (N,Q,R,W,S,1,2,3,7)/42 St (A,C,E)",2023,2023-05-01,2,746369
+"34 St-Penn Station (1,2,3)",2021,2021-05-01,2,160083
+"Fulton St (A,C,J,Z,2,3,4,5)",2021,2021-05-01,2,151671
+"Grand Central-42 St (S,4,5,6,7)",2021,2021-02-01,2,91510
+"34 St-Penn Station (A,C,E)",2024,2024-03-01,2,362797
+Flushing-Main St (7),2023,2023-02-01,2,138359
+"Times Sq-42 St (N,Q,R,W,S,1,2,3,7)/42 St (A,C,E)",2021,2021-12-01,2,566493
+"47-50 Sts-Rockefeller Ctr (B,D,F,M)",2022,2022-03-01,2,73693
+"Grand Central-42 St (S,4,5,6,7)",2022,2022-08-01,2,297700
+"14 St-Union Sq (L,N,Q,R,W,4,5,6)",2021,2021-01-01,2,157418
+"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",2020,2020-09-01,2,137779
+"74-Broadway (7)/Jackson Hts-Roosevelt Av (E,F,M,R)",2020,2020-08-01,2,123737
+"47-50 Sts-Rockefeller Ctr (B,D,F,M)",2024,2024-05-01,2,125205
+"47-50 Sts-Rockefeller Ctr (B,D,F,M)",2023,2023-09-01,2,122063
+Flushing-Main St (7),2022,2022-04-01,2,205949
+"74-Broadway (7)/Jackson Hts-Roosevelt Av (E,F,M,R)",2022,2022-05-01,2,225529
+"59 St-Columbus Circle (A,B,C,D,1)",2024,2024-09-01,2,260005
+"Grand Central-42 St (S,4,5,6,7)",2023,2023-12-01,2,566506
+"Fulton St (A,C,J,Z,2,3,4,5)",2023,2023-10-01,2,299420
+"Fulton St (A,C,J,Z,2,3,4,5)",2023,2023-06-01,2,244415
+"59 St-Columbus Circle (A,B,C,D,1)",2021,2021-07-01,2,178945
+"74-Broadway (7)/Jackson Hts-Roosevelt Av (E,F,M,R)",2021,2021-05-01,2,179901
+"74-Broadway (7)/Jackson Hts-Roosevelt Av (E,F,M,R)",2021,2021-03-01,2,130716
+"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",2024,2024-04-01,2,398453
+"34 St-Penn Station (1,2,3)",2022,2022-01-01,2,144738
+"34 St-Penn Station (1,2,3)",2023,2023-03-01,2,214603
+"74-Broadway (7)/Jackson Hts-Roosevelt Av (E,F,M,R)",2023,2023-07-01,2,307452
+"Times Sq-42 St (N,Q,R,W,S,1,2,3,7)/42 St (A,C,E)",2023,2023-11-01,2,754674
+"74-Broadway (7)/Jackson Hts-Roosevelt Av (E,F,M,R)",2023,2023-09-01,2,266690
+Flushing-Main St (7),2022,2022-11-01,2,199298
+"Grand Central-42 St (S,4,5,6,7)",2022,2022-06-01,2,303548
+"Times Sq-42 St (N,Q,R,W,S,1,2,3,7)/42 St (A,C,E)",2021,2021-02-01,2,194802
+"Times Sq-42 St (N,Q,R,W,S,1,2,3,7)/42 St (A,C,E)",2020,2020-11-01,2,244985
+"59 St-Columbus Circle (A,B,C,D,1)",2020,2020-08-01,2,79048
+"74-Broadway (7)/Jackson Hts-Roosevelt Av (E,F,M,R)",2022,2022-01-01,2,172621
+Flushing-Main St (7),2023,2023-09-01,2,257536
+"14 St-Union Sq (L,N,Q,R,W,4,5,6)",2023,2023-06-01,2,385963
+"59 St-Columbus Circle (A,B,C,D,1)",2021,2021-06-01,2,162778
+"74-Broadway (7)/Jackson Hts-Roosevelt Av (E,F,M,R)",2020,2020-10-01,2,146728
+"74-Broadway (7)/Jackson Hts-Roosevelt Av (E,F,M,R)",2020,2020-09-01,2,115966
+Flushing-Main St (7),2024,2024-04-01,2,238287
+"74-Broadway (7)/Jackson Hts-Roosevelt Av (E,F,M,R)",2024,2024-07-01,2,232816
+"Grand Central-42 St (S,4,5,6,7)",2021,2021-07-01,2,234257
+"74-Broadway (7)/Jackson Hts-Roosevelt Av (E,F,M,R)",2023,2023-03-01,2,220529
+"59 St-Columbus Circle (A,B,C,D,1)",2023,2023-11-01,2,296852
+"Fulton St (A,C,J,Z,2,3,4,5)",2023,2023-11-01,2,261637
+"34 St-Penn Station (A,C,E)",2022,2022-04-01,2,246584
+"34 St-Penn Station (1,2,3)",2021,2021-09-01,2,180556
+"34 St-Penn Station (1,2,3)",2020,2020-12-01,2,85180
+Flushing-Main St (7),2020,2020-11-01,2,129255
+"47-50 Sts-Rockefeller Ctr (B,D,F,M)",2020,2020-09-01,2,27876
+"74-Broadway (7)/Jackson Hts-Roosevelt Av (E,F,M,R)",2024,2024-03-01,2,330729
+Flushing-Main St (7),2023,2023-01-01,2,221580
+"74-Broadway (7)/Jackson Hts-Roosevelt Av (E,F,M,R)",2022,2022-06-01,2,208928
+"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",2021,2021-03-01,2,165254
+"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",2021,2021-01-01,2,167746
+"Fulton St (A,C,J,Z,2,3,4,5)",2020,2020-11-01,2,96687
+"47-50 Sts-Rockefeller Ctr (B,D,F,M)",2024,2024-04-01,2,120991
+"Fulton St (A,C,J,Z,2,3,4,5)",2024,2024-02-01,2,219162
+"74-Broadway (7)/Jackson Hts-Roosevelt Av (E,F,M,R)",2023,2023-11-01,2,262773
+"14 St-Union Sq (L,N,Q,R,W,4,5,6)",2022,2022-05-01,2,332934
+"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",2021,2021-11-01,2,370764
+"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",2024,2024-08-01,2,433816
+"Grand Central-42 St (S,4,5,6,7)",2022,2022-02-01,2,221638
+"Fulton St (A,C,J,Z,2,3,4,5)",2024,2024-10-01,2,304028
+"34 St-Penn Station (A,C,E)",2022,2022-12-01,2,269567
+"34 St-Penn Station (1,2,3)",2021,2021-10-01,2,244892
+"14 St-Union Sq (L,N,Q,R,W,4,5,6)",2021,2021-11-01,2,319949
+"Grand Central-42 St (S,4,5,6,7)",2021,2021-11-01,2,276945
+"34 St-Penn Station (1,2,3)",2022,2022-08-01,2,209713
+Flushing-Main St (7),2021,2021-04-01,2,97885
+"Grand Central-42 St (S,4,5,6,7)",2021,2021-04-01,2,128131
+"59 St-Columbus Circle (A,B,C,D,1)",2024,2024-08-01,2,264747
+"74-Broadway (7)/Jackson Hts-Roosevelt Av (E,F,M,R)",2024,2024-08-01,2,261638
+"Times Sq-42 St (N,Q,R,W,S,1,2,3,7)/42 St (A,C,E)",2023,2023-10-01,2,839752
+"14 St-Union Sq (L,N,Q,R,W,4,5,6)",2022,2022-10-01,2,415466
+"34 St-Penn Station (A,C,E)",2021,2021-09-01,2,188179
+"Times Sq-42 St (N,Q,R,W,S,1,2,3,7)/42 St (A,C,E)",2024,2024-05-01,2,783248
+"47-50 Sts-Rockefeller Ctr (B,D,F,M)",2024,2024-06-01,2,151484
+"Fulton St (A,C,J,Z,2,3,4,5)",2023,2023-01-01,2,219494
+"Times Sq-42 St (N,Q,R,W,S,1,2,3,7)/42 St (A,C,E)",2023,2023-06-01,2,751405
+"74-Broadway (7)/Jackson Hts-Roosevelt Av (E,F,M,R)",2021,2021-12-01,2,185634
+"47-50 Sts-Rockefeller Ctr (B,D,F,M)",2021,2021-05-01,2,56164
+"Grand Central-42 St (S,4,5,6,7)",2021,2021-03-01,2,110410
+"59 St-Columbus Circle (A,B,C,D,1)",2020,2020-07-01,2,55622
+"74-Broadway (7)/Jackson Hts-Roosevelt Av (E,F,M,R)",2020,2020-07-01,2,94265
+"47-50 Sts-Rockefeller Ctr (B,D,F,M)",2024,2024-01-01,2,103377
+"14 St-Union Sq (L,N,Q,R,W,4,5,6)",2022,2022-01-01,2,241164
+"34 St-Penn Station (A,C,E)",2023,2023-04-01,2,301020
+"14 St-Union Sq (L,N,Q,R,W,4,5,6)",2023,2023-01-01,2,345647
+"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",2022,2022-04-01,2,384007
+"Fulton St (A,C,J,Z,2,3,4,5)",2022,2022-05-01,2,214075
+"34 St-Penn Station (A,C,E)",2021,2021-11-01,2,251528
+"Times Sq-42 St (N,Q,R,W,S,1,2,3,7)/42 St (A,C,E)",2021,2021-11-01,2,597634
+"Times Sq-42 St (N,Q,R,W,S,1,2,3,7)/42 St (A,C,E)",2022,2022-03-01,2,525325
+"Fulton St (A,C,J,Z,2,3,4,5)",2020,2020-12-01,2,72906
+"34 St-Penn Station (A,C,E)",2022,2022-11-01,2,282010
+"59 St-Columbus Circle (A,B,C,D,1)",2021,2021-09-01,2,196846
+"34 St-Penn Station (1,2,3)",2022,2022-05-01,2,254375
+"59 St-Columbus Circle (A,B,C,D,1)",2021,2021-11-01,2,228399
+Flushing-Main St (7),2022,2022-08-01,2,199489
+"Times Sq-42 St (N,Q,R,W,S,1,2,3,7)/42 St (A,C,E)",2021,2021-01-01,2,223899
+"Grand Central-42 St (S,4,5,6,7)",2023,2023-04-01,2,467153
+"59 St-Columbus Circle (A,B,C,D,1)",2022,2022-09-01,2,231009
+"47-50 Sts-Rockefeller Ctr (B,D,F,M)",2021,2021-11-01,2,106268
+"74-Broadway (7)/Jackson Hts-Roosevelt Av (E,F,M,R)",2021,2021-11-01,2,197186
+"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",2021,2021-02-01,2,140442
+Flushing-Main St (7),2021,2021-02-01,2,106843
+"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",2020,2020-12-01,2,164237
+"34 St-Penn Station (1,2,3)",2020,2020-11-01,2,99708
+Flushing-Main St (7),2020,2020-09-01,2,111561
+"14 St-Union Sq (L,N,Q,R,W,4,5,6)",2020,2020-07-01,2,84920
+"Fulton St (A,C,J,Z,2,3,4,5)",2020,2020-07-01,2,53022
+"14 St-Union Sq (L,N,Q,R,W,4,5,6)",2024,2024-01-01,2,309574
+"59 St-Columbus Circle (A,B,C,D,1)",2024,2024-07-01,2,247684
+Flushing-Main St (7),2023,2023-05-01,2,233923
+"Fulton St (A,C,J,Z,2,3,4,5)",2023,2023-07-01,2,291857
+"34 St-Penn Station (A,C,E)",2023,2023-09-01,2,296069
+"34 St-Penn Station (A,C,E)",2023,2023-06-01,2,260026
+Flushing-Main St (7),2023,2023-08-01,2,237259
+"34 St-Penn Station (A,C,E)",2022,2022-10-01,2,298462
+"74-Broadway (7)/Jackson Hts-Roosevelt Av (E,F,M,R)",2022,2022-10-01,2,257980
+"Times Sq-42 St (N,Q,R,W,S,1,2,3,7)/42 St (A,C,E)",2021,2021-05-01,2,396961
+"74-Broadway (7)/Jackson Hts-Roosevelt Av (E,F,M,R)",2021,2021-04-01,2,136668
+"14 St-Union Sq (L,N,Q,R,W,4,5,6)",2020,2020-08-01,2,124231
+"14 St-Union Sq (L,N,Q,R,W,4,5,6)",2023,2023-08-01,2,372528
+"34 St-Penn Station (1,2,3)",2021,2021-11-01,2,228101
+"Fulton St (A,C,J,Z,2,3,4,5)",2021,2021-01-01,2,92801
+"Grand Central-42 St (S,4,5,6,7)",2020,2020-09-01,2,95039
+"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",2024,2024-05-01,2,404773
+"74-Broadway (7)/Jackson Hts-Roosevelt Av (E,F,M,R)",2023,2023-05-01,2,246907
+"Grand Central-42 St (S,4,5,6,7)",2023,2023-01-01,2,333639
+"Grand Central-42 St (S,4,5,6,7)",2022,2022-09-01,2,330753
+"Fulton St (A,C,J,Z,2,3,4,5)",2022,2022-08-01,2,210733
+"34 St-Penn Station (A,C,E)",2020,2020-09-01,2,77258
+"Grand Central-42 St (S,4,5,6,7)",2024,2024-01-01,2,313807
+"74-Broadway (7)/Jackson Hts-Roosevelt Av (E,F,M,R)",2024,2024-06-01,2,334047
+"14 St-Union Sq (L,N,Q,R,W,4,5,6)",2024,2024-10-01,2,442490
+"34 St-Penn Station (1,2,3)",2020,2020-08-01,2,83848
+"47-50 Sts-Rockefeller Ctr (B,D,F,M)",2024,2024-03-01,2,142237
+"Times Sq-42 St (N,Q,R,W,S,1,2,3,7)/42 St (A,C,E)",2024,2024-10-01,2,828735
+"Grand Central-42 St (S,4,5,6,7)",2023,2023-11-01,2,439096
+"47-50 Sts-Rockefeller Ctr (B,D,F,M)",2022,2022-07-01,2,105515
+"14 St-Union Sq (L,N,Q,R,W,4,5,6)",2022,2022-09-01,2,324940
+"34 St-Penn Station (A,C,E)",2021,2021-04-01,2,116259
+"34 St-Penn Station (A,C,E)",2020,2020-08-01,2,78355
+"47-50 Sts-Rockefeller Ctr (B,D,F,M)",2023,2023-03-01,2,105324
+"59 St-Columbus Circle (A,B,C,D,1)",2023,2023-06-01,2,266854
+"34 St-Penn Station (1,2,3)",2023,2023-11-01,2,247668
+"34 St-Penn Station (1,2,3)",2023,2023-09-01,2,264421
+"14 St-Union Sq (L,N,Q,R,W,4,5,6)",2021,2021-12-01,2,303447
+"47-50 Sts-Rockefeller Ctr (B,D,F,M)",2022,2022-06-01,2,100946
+"Grand Central-42 St (S,4,5,6,7)",2021,2021-08-01,2,212918
+"Fulton St (A,C,J,Z,2,3,4,5)",2024,2024-04-01,2,260362
+"Grand Central-42 St (S,4,5,6,7)",2023,2023-02-01,2,288692
+"74-Broadway (7)/Jackson Hts-Roosevelt Av (E,F,M,R)",2023,2023-01-01,2,235655
+"59 St-Columbus Circle (A,B,C,D,1)",2022,2022-11-01,2,258769
+"Grand Central-42 St (S,4,5,6,7)",2022,2022-11-01,2,340734
+"47-50 Sts-Rockefeller Ctr (B,D,F,M)",2022,2022-08-01,2,99559
+"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",2020,2020-11-01,2,166299
+"Times Sq-42 St (N,Q,R,W,S,1,2,3,7)/42 St (A,C,E)",2024,2024-01-01,2,605919
+"34 St-Penn Station (1,2,3)",2023,2023-04-01,2,292174
+"74-Broadway (7)/Jackson Hts-Roosevelt Av (E,F,M,R)",2022,2022-04-01,2,227781
+"Grand Central-42 St (S,4,5,6,7)",2022,2022-04-01,2,312898
+"Times Sq-42 St (N,Q,R,W,S,1,2,3,7)/42 St (A,C,E)",2021,2021-04-01,2,280764
+"Grand Central-42 St (S,4,5,6,7)",2021,2021-01-01,2,100888
+Flushing-Main St (7),2024,2024-06-01,2,310687
+"59 St-Columbus Circle (A,B,C,D,1)",2022,2022-01-01,2,172436
+"47-50 Sts-Rockefeller Ctr (B,D,F,M)",2022,2022-11-01,2,121940
+"Grand Central-42 St (S,4,5,6,7)",2022,2022-07-01,2,360375
+"74-Broadway (7)/Jackson Hts-Roosevelt Av (E,F,M,R)",2022,2022-09-01,2,210858
+"74-Broadway (7)/Jackson Hts-Roosevelt Av (E,F,M,R)",2022,2022-03-01,2,194041
+"Fulton St (A,C,J,Z,2,3,4,5)",2021,2021-08-01,2,167710
+Flushing-Main St (7),2021,2021-01-01,2,123239
+"74-Broadway (7)/Jackson Hts-Roosevelt Av (E,F,M,R)",2024,2024-01-01,2,262711
+"34 St-Penn Station (A,C,E)",2024,2024-06-01,2,367909
+"Times Sq-42 St (N,Q,R,W,S,1,2,3,7)/42 St (A,C,E)",2023,2023-04-01,2,881251
+"Times Sq-42 St (N,Q,R,W,S,1,2,3,7)/42 St (A,C,E)",2021,2021-09-01,2,495410
+"Fulton St (A,C,J,Z,2,3,4,5)",2021,2021-10-01,2,222201
+"34 St-Penn Station (A,C,E)",2021,2021-07-01,2,212376
+"14 St-Union Sq (L,N,Q,R,W,4,5,6)",2021,2021-02-01,2,145514
+"47-50 Sts-Rockefeller Ctr (B,D,F,M)",2020,2020-12-01,2,62521
+"34 St-Penn Station (1,2,3)",2020,2020-09-01,2,87488
+"47-50 Sts-Rockefeller Ctr (B,D,F,M)",2023,2023-10-01,2,134149
+"Grand Central-42 St (S,4,5,6,7)",2023,2023-07-01,2,494281
+"47-50 Sts-Rockefeller Ctr (B,D,F,M)",2023,2023-02-01,2,98802
+"59 St-Columbus Circle (A,B,C,D,1)",2022,2022-05-01,2,247422
+"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",2022,2022-09-01,2,354291
+Flushing-Main St (7),2021,2021-11-01,2,180154
+"59 St-Columbus Circle (A,B,C,D,1)",2024,2024-06-01,2,343446
+Flushing-Main St (7),2022,2022-01-01,2,161226
+"Fulton St (A,C,J,Z,2,3,4,5)",2022,2022-12-01,2,268032
+"Grand Central-42 St (S,4,5,6,7)",2020,2020-12-01,2,95488
+"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",2023,2023-01-01,2,374465
+"Grand Central-42 St (S,4,5,6,7)",2023,2023-09-01,2,450566
+"74-Broadway (7)/Jackson Hts-Roosevelt Av (E,F,M,R)",2022,2022-12-01,2,206784
+Flushing-Main St (7),2022,2022-10-01,2,250691
+"Grand Central-42 St (S,4,5,6,7)",2022,2022-10-01,2,441973
+Flushing-Main St (7),2022,2022-09-01,2,210288
+"59 St-Columbus Circle (A,B,C,D,1)",2022,2022-08-01,2,204021
+Flushing-Main St (7),2021,2021-05-01,2,174327
+"34 St-Penn Station (1,2,3)",2021,2021-02-01,2,77915
+"Fulton St (A,C,J,Z,2,3,4,5)",2020,2020-10-01,2,109932
+"14 St-Union Sq (L,N,Q,R,W,4,5,6)",2024,2024-03-01,2,453741
+Flushing-Main St (7),2023,2023-12-01,2,300849
+"Times Sq-42 St (N,Q,R,W,S,1,2,3,7)/42 St (A,C,E)",2023,2023-03-01,2,661037
+"34 St-Penn Station (A,C,E)",2023,2023-02-01,2,237361
+"47-50 Sts-Rockefeller Ctr (B,D,F,M)",2023,2023-04-01,2,142768
+"14 St-Union Sq (L,N,Q,R,W,4,5,6)",2023,2023-09-01,2,403128
+"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",2020,2020-07-01,2,91901
+"34 St-Penn Station (1,2,3)",2024,2024-04-01,2,234947
+"Fulton St (A,C,J,Z,2,3,4,5)",2024,2024-06-01,2,338047
+"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",2023,2023-03-01,2,366745
+"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",2023,2023-11-01,2,426698
+"34 St-Penn Station (A,C,E)",2023,2023-01-01,2,234285
+"Grand Central-42 St (S,4,5,6,7)",2023,2023-06-01,2,417636
+"Fulton St (A,C,J,Z,2,3,4,5)",2022,2022-10-01,2,313266
+"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",2022,2022-05-01,2,402029
+"Times Sq-42 St (N,Q,R,W,S,1,2,3,7)/42 St (A,C,E)",2021,2021-08-01,2,454164
+"14 St-Union Sq (L,N,Q,R,W,4,5,6)",2021,2021-05-01,2,260943
+"34 St-Penn Station (A,C,E)",2021,2021-05-01,2,164440
+"Grand Central-42 St (S,4,5,6,7)",2021,2021-05-01,2,191456
+"14 St-Union Sq (L,N,Q,R,W,4,5,6)",2021,2021-04-01,2,191782
+"Grand Central-42 St (S,4,5,6,7)",2024,2024-09-01,2,408462
+"14 St-Union Sq (L,N,Q,R,W,4,5,6)",2021,2021-10-01,2,405228
+"34 St-Penn Station (1,2,3)",2022,2022-06-01,2,217729
+"Fulton St (A,C,J,Z,2,3,4,5)",2022,2022-11-01,2,218986
+"14 St-Union Sq (L,N,Q,R,W,4,5,6)",2021,2021-09-01,2,299434
+"Grand Central-42 St (S,4,5,6,7)",2021,2021-10-01,2,312778
+"14 St-Union Sq (L,N,Q,R,W,4,5,6)",2022,2022-06-01,2,326144
+Flushing-Main St (7),2024,2024-08-01,2,280290
+"34 St-Penn Station (1,2,3)",2023,2023-08-01,2,238174
+"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",2022,2022-03-01,2,309934
+"Times Sq-42 St (N,Q,R,W,S,1,2,3,7)/42 St (A,C,E)",2021,2021-07-01,2,499022
+"59 St-Columbus Circle (A,B,C,D,1)",2020,2020-10-01,2,110806
+"34 St-Penn Station (A,C,E)",2020,2020-12-01,2,72238
+Flushing-Main St (7),2024,2024-05-01,2,251602
+"Fulton St (A,C,J,Z,2,3,4,5)",2024,2024-03-01,2,307034
+"14 St-Union Sq (L,N,Q,R,W,4,5,6)",2024,2024-06-01,2,451380
+"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",2024,2024-10-01,2,452066
+"34 St-Penn Station (1,2,3)",2024,2024-10-01,2,318731
+"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",2023,2023-09-01,2,401373
+"Times Sq-42 St (N,Q,R,W,S,1,2,3,7)/42 St (A,C,E)",2022,2022-04-01,2,644827
+"Times Sq-42 St (N,Q,R,W,S,1,2,3,7)/42 St (A,C,E)",2022,2022-10-01,2,820207
+"34 St-Penn Station (1,2,3)",2021,2021-04-01,2,105101
+Flushing-Main St (7),2020,2020-08-01,2,104259
+Flushing-Main St (7),2020,2020-07-01,2,71045
+"Fulton St (A,C,J,Z,2,3,4,5)",2024,2024-05-01,2,274470
+"34 St-Penn Station (A,C,E)",2024,2024-02-01,2,248157
+"59 St-Columbus Circle (A,B,C,D,1)",2024,2024-01-01,2,225032
+"34 St-Penn Station (A,C,E)",2024,2024-10-01,2,333096
+"Times Sq-42 St (N,Q,R,W,S,1,2,3,7)/42 St (A,C,E)",2021,2021-06-01,2,408134
+"Fulton St (A,C,J,Z,2,3,4,5)",2022,2022-06-01,2,195289
+"59 St-Columbus Circle (A,B,C,D,1)",2021,2021-05-01,2,166953
+"Grand Central-42 St (S,4,5,6,7)",2020,2020-10-01,2,124130
+"34 St-Penn Station (A,C,E)",2024,2024-05-01,2,271968
+"34 St-Penn Station (1,2,3)",2024,2024-09-01,2,244749
+"Times Sq-42 St (N,Q,R,W,S,1,2,3,7)/42 St (A,C,E)",2024,2024-08-01,2,829296
+"34 St-Penn Station (A,C,E)",2024,2024-07-01,2,262603
+"47-50 Sts-Rockefeller Ctr (B,D,F,M)",2023,2023-08-01,2,107069
+"34 St-Penn Station (1,2,3)",2022,2022-09-01,2,218794
+"47-50 Sts-Rockefeller Ctr (B,D,F,M)",2021,2021-03-01,2,35488
+"Grand Central-42 St (S,4,5,6,7)",2024,2024-05-01,2,433664
+"14 St-Union Sq (L,N,Q,R,W,4,5,6)",2024,2024-04-01,2,406151
+"47-50 Sts-Rockefeller Ctr (B,D,F,M)",2022,2022-01-01,2,76272
+"34 St-Penn Station (1,2,3)",2023,2023-12-01,2,333360
+"34 St-Penn Station (A,C,E)",2023,2023-07-01,2,344414
+"34 St-Penn Station (1,2,3)",2023,2023-01-01,2,219611
+"74-Broadway (7)/Jackson Hts-Roosevelt Av (E,F,M,R)",2024,2024-09-01,2,270054
+"Fulton St (A,C,J,Z,2,3,4,5)",2023,2023-12-01,2,347308
+"34 St-Penn Station (A,C,E)",2021,2021-10-01,2,298471
+"14 St-Union Sq (L,N,Q,R,W,4,5,6)",2022,2022-08-01,2,280708
+"47-50 Sts-Rockefeller Ctr (B,D,F,M)",2020,2020-08-01,2,27162
+"14 St-Union Sq (L,N,Q,R,W,4,5,6)",2022,2022-02-01,2,271203
+"14 St-Union Sq (L,N,Q,R,W,4,5,6)",2023,2023-02-01,2,323508
+"14 St-Union Sq (L,N,Q,R,W,4,5,6)",2021,2021-03-01,2,170670
+Flushing-Main St (7),2021,2021-03-01,2,122808
+"Grand Central-42 St (S,4,5,6,7)",2020,2020-07-01,2,57869
+"Fulton St (A,C,J,Z,2,3,4,5)",2024,2024-09-01,2,245196
+"34 St-Penn Station (A,C,E)",2024,2024-08-01,2,303983
+"Times Sq-42 St (N,Q,R,W,S,1,2,3,7)/42 St (A,C,E)",2024,2024-07-01,2,730356
+"34 St-Penn Station (1,2,3)",2022,2022-12-01,2,261716
+"Grand Central-42 St (S,4,5,6,7)",2023,2023-08-01,2,402038
+"Times Sq-42 St (N,Q,R,W,S,1,2,3,7)/42 St (A,C,E)",2022,2022-05-01,2,641773
+"34 St-Penn Station (1,2,3)",2024,2024-05-01,2,254593
+"34 St-Penn Station (A,C,E)",2024,2024-04-01,2,288303
+"74-Broadway (7)/Jackson Hts-Roosevelt Av (E,F,M,R)",2024,2024-04-01,2,271202
+"Grand Central-42 St (S,4,5,6,7)",2024,2024-08-01,2,455722
+"Fulton St (A,C,J,Z,2,3,4,5)",2023,2023-04-01,2,274689
+"Times Sq-42 St (N,Q,R,W,S,1,2,3,7)/42 St (A,C,E)",2022,2022-06-01,2,613421
+"47-50 Sts-Rockefeller Ctr (B,D,F,M)",2020,2020-11-01,2,40841
+"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",2020,2020-08-01,2,143296
+"47-50 Sts-Rockefeller Ctr (B,D,F,M)",2024,2024-09-01,2,111152
+"34 St-Penn Station (1,2,3)",2024,2024-03-01,2,288820
+"59 St-Columbus Circle (A,B,C,D,1)",2023,2023-03-01,2,248277
+"47-50 Sts-Rockefeller Ctr (B,D,F,M)",2023,2023-05-01,2,114744
+Flushing-Main St (7),2023,2023-04-01,2,262756
+"47-50 Sts-Rockefeller Ctr (B,D,F,M)",2021,2021-01-01,2,41328
+"14 St-Union Sq (L,N,Q,R,W,4,5,6)",2020,2020-11-01,2,167038
+Flushing-Main St (7),2023,2023-11-01,2,232231
+"47-50 Sts-Rockefeller Ctr (B,D,F,M)",2023,2023-06-01,2,101693
+"59 St-Columbus Circle (A,B,C,D,1)",2022,2022-12-01,2,281057
+Flushing-Main St (7),2021,2021-10-01,2,220204
+"59 St-Columbus Circle (A,B,C,D,1)",2024,2024-10-01,2,313710
+"34 St-Penn Station (A,C,E)",2023,2023-03-01,2,248822
+"34 St-Penn Station (1,2,3)",2023,2023-10-01,2,279594
+"14 St-Union Sq (L,N,Q,R,W,4,5,6)",2023,2023-05-01,2,393127
+"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",2023,2023-07-01,2,429115
+"Times Sq-42 St (N,Q,R,W,S,1,2,3,7)/42 St (A,C,E)",2023,2023-07-01,2,934291
+"34 St-Penn Station (1,2,3)",2022,2022-11-01,2,252792
+"34 St-Penn Station (A,C,E)",2022,2022-05-01,2,179588
+"47-50 Sts-Rockefeller Ctr (B,D,F,M)",2022,2022-09-01,2,108048
+Flushing-Main St (7),2022,2022-06-01,2,196067
+"34 St-Penn Station (A,C,E)",2021,2021-08-01,2,188904
+"Fulton St (A,C,J,Z,2,3,4,5)",2020,2020-09-01,2,85835
+"74-Broadway (7)/Jackson Hts-Roosevelt Av (E,F,M,R)",2024,2024-05-01,2,252021
+"34 St-Penn Station (1,2,3)",2023,2023-07-01,2,283190
+"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",2023,2023-04-01,2,468106
+"Times Sq-42 St (N,Q,R,W,S,1,2,3,7)/42 St (A,C,E)",2023,2023-09-01,2,812821
+"47-50 Sts-Rockefeller Ctr (B,D,F,M)",2022,2022-04-01,2,104247
+"74-Broadway (7)/Jackson Hts-Roosevelt Av (E,F,M,R)",2020,2020-11-01,2,134437
+"Times Sq-42 St (N,Q,R,W,S,1,2,3,7)/42 St (A,C,E)",2020,2020-09-01,2,203896
+"34 St-Penn Station (1,2,3)",2024,2024-01-01,2,179826
+"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",2023,2023-05-01,2,380887
+"47-50 Sts-Rockefeller Ctr (B,D,F,M)",2023,2023-11-01,2,134121
+"34 St-Penn Station (1,2,3)",2022,2022-07-01,2,249228
+"59 St-Columbus Circle (A,B,C,D,1)",2022,2022-10-01,2,331798
+"Grand Central-42 St (S,4,5,6,7)",2021,2021-09-01,2,235566
+"34 St-Penn Station (1,2,3)",2021,2021-07-01,2,181789
+"59 St-Columbus Circle (A,B,C,D,1)",2021,2021-02-01,2,90501
+"59 St-Columbus Circle (A,B,C,D,1)",2020,2020-09-01,2,86858
+"Times Sq-42 St (N,Q,R,W,S,1,2,3,7)/42 St (A,C,E)",2024,2024-04-01,2,760319
+"47-50 Sts-Rockefeller Ctr (B,D,F,M)",2024,2024-08-01,2,139206
+"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",2024,2024-07-01,2,382481
+"14 St-Union Sq (L,N,Q,R,W,4,5,6)",2023,2023-03-01,2,363648
+Flushing-Main St (7),2022,2022-12-01,2,213344
+"Fulton St (A,C,J,Z,2,3,4,5)",2021,2021-11-01,2,181859
+"34 St-Penn Station (A,C,E)",2022,2022-03-01,2,212584
+"34 St-Penn Station (1,2,3)",2021,2021-08-01,2,174649
+"14 St-Union Sq (L,N,Q,R,W,4,5,6)",2020,2020-09-01,2,139800
+"14 St-Union Sq (L,N,Q,R,W,4,5,6)",2022,2022-07-01,2,356444
+"34 St-Penn Station (1,2,3)",2022,2022-02-01,2,184873
+"34 St-Penn Station (A,C,E)",2023,2023-10-01,2,332537
+"14 St-Union Sq (L,N,Q,R,W,4,5,6)",2023,2023-07-01,2,424971
+"34 St-Penn Station (A,C,E)",2022,2022-07-01,2,273250
+"34 St-Penn Station (A,C,E)",2022,2022-02-01,2,117594
+"34 St-Penn Station (A,C,E)",2022,2022-01-01,2,169087
+"Grand Central-42 St (S,4,5,6,7)",2022,2022-05-01,2,307687
+"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",2021,2021-12-01,2,344160
+"14 St-Union Sq (L,N,Q,R,W,4,5,6)",2021,2021-07-01,2,281802
+"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",2023,2023-02-01,2,349099
+"34 St-Penn Station (1,2,3)",2023,2023-02-01,2,207785
+"Fulton St (A,C,J,Z,2,3,4,5)",2023,2023-02-01,2,205654
+"Times Sq-42 St (N,Q,R,W,S,1,2,3,7)/42 St (A,C,E)",2022,2022-07-01,2,758313
+"Times Sq-42 St (N,Q,R,W,S,1,2,3,7)/42 St (A,C,E)",2021,2021-03-01,2,241532
+"74-Broadway (7)/Jackson Hts-Roosevelt Av (E,F,M,R)",2023,2023-10-01,2,277017
+"Fulton St (A,C,J,Z,2,3,4,5)",2023,2023-09-01,2,293306
+"59 St-Columbus Circle (A,B,C,D,1)",2021,2021-10-01,2,256032
+Flushing-Main St (7),2022,2022-03-01,2,164788
+"Times Sq-42 St (N,Q,R,W,S,1,2,3,7)/42 St (A,C,E)",2020,2020-07-01,2,132555
+"59 St-Columbus Circle (A,B,C,D,1)",2024,2024-02-01,2,252436
+"Fulton St (A,C,J,Z,2,3,4,5)",2024,2024-08-01,2,292345
+"59 St-Columbus Circle (A,B,C,D,1)",2023,2023-09-01,2,285687
+"59 St-Columbus Circle (A,B,C,D,1)",2021,2021-12-01,2,206011
+"47-50 Sts-Rockefeller Ctr (B,D,F,M)",2021,2021-02-01,2,32380
+"34 St-Penn Station (A,C,E)",2021,2021-01-01,2,99614
+"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",2024,2024-01-01,2,325986
+"59 St-Columbus Circle (A,B,C,D,1)",2022,2022-02-01,2,186446
+"Times Sq-42 St (N,Q,R,W,S,1,2,3,7)/42 St (A,C,E)",2023,2023-12-01,2,1003714
+"14 St-Union Sq (L,N,Q,R,W,4,5,6)",2022,2022-12-01,2,382487
+"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",2021,2021-09-01,2,305252
+"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",2021,2021-10-01,2,407890
+"34 St-Penn Station (1,2,3)",2024,2024-07-01,2,243651
+"Grand Central-42 St (S,4,5,6,7)",2024,2024-07-01,2,434831
+"59 St-Columbus Circle (A,B,C,D,1)",2023,2023-05-01,2,277310
+"Fulton St (A,C,J,Z,2,3,4,5)",2022,2022-04-01,2,215045
+"59 St-Columbus Circle (A,B,C,D,1)",2022,2022-03-01,2,206527
+"59 St-Columbus Circle (A,B,C,D,1)",2020,2020-11-01,2,106843
+"47-50 Sts-Rockefeller Ctr (B,D,F,M)",2024,2024-10-01,2,142910
+"59 St-Columbus Circle (A,B,C,D,1)",2023,2023-12-01,2,354127
+"Fulton St (A,C,J,Z,2,3,4,5)",2023,2023-03-01,2,207302
+"34 St-Penn Station (A,C,E)",2023,2023-11-01,2,306199
+"Fulton St (A,C,J,Z,2,3,4,5)",2023,2023-08-01,2,247513
+"14 St-Union Sq (L,N,Q,R,W,4,5,6)",2022,2022-04-01,2,359812
+"47-50 Sts-Rockefeller Ctr (B,D,F,M)",2020,2020-10-01,2,39693
+"Times Sq-42 St (N,Q,R,W,S,1,2,3,7)/42 St (A,C,E)",2023,2023-01-01,2,666677
+"74-Broadway (7)/Jackson Hts-Roosevelt Av (E,F,M,R)",2022,2022-07-01,2,240700
+"Grand Central-42 St (S,4,5,6,7)",2021,2021-12-01,2,266616
+"34 St-Penn Station (1,2,3)",2023,2023-06-01,2,252773
+"74-Broadway (7)/Jackson Hts-Roosevelt Av (E,F,M,R)",2023,2023-06-01,2,264777
+"Fulton St (A,C,J,Z,2,3,4,5)",2021,2021-09-01,2,186785
+"Fulton St (A,C,J,Z,2,3,4,5)",2022,2022-09-01,2,226074
+"Times Sq-42 St (N,Q,R,W,S,1,2,3,7)/42 St (A,C,E)",2020,2020-10-01,2,253464
+"34 St-Penn Station (A,C,E)",2024,2024-09-01,2,276306
+"34 St-Penn Station (A,C,E)",2023,2023-08-01,2,275513
+"Times Sq-42 St (N,Q,R,W,S,1,2,3,7)/42 St (A,C,E)",2023,2023-08-01,2,755145
+"59 St-Columbus Circle (A,B,C,D,1)",2022,2022-06-01,2,235174
+"74-Broadway (7)/Jackson Hts-Roosevelt Av (E,F,M,R)",2020,2020-12-01,2,113289
+"47-50 Sts-Rockefeller Ctr (B,D,F,M)",2024,2024-07-01,2,132806
+"Times Sq-42 St (N,Q,R,W,S,1,2,3,7)/42 St (A,C,E)",2022,2022-02-01,2,470683
+"14 St-Union Sq (L,N,Q,R,W,4,5,6)",2023,2023-04-01,2,480221
+"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",2023,2023-06-01,2,374623
+"Times Sq-42 St (N,Q,R,W,S,1,2,3,7)/42 St (A,C,E)",2021,2021-10-01,2,670084
+"34 St-Penn Station (1,2,3)",2020,2020-10-01,2,109253
+"14 St-Union Sq (L,N,Q,R,W,4,5,6)",2024,2024-08-01,2,400065
+Flushing-Main St (7),2022,2022-07-01,2,237953
+"74-Broadway (7)/Jackson Hts-Roosevelt Av (E,F,M,R)",2021,2021-09-01,2,174918
+"34 St-Penn Station (A,C,E)",2021,2021-03-01,2,95716
+"14 St-Union Sq (L,N,Q,R,W,4,5,6)",2020,2020-10-01,2,172681
+"14 St-Union Sq (L,N,Q,R,W,4,5,6)",2024,2024-05-01,2,397513
+"59 St-Columbus Circle (A,B,C,D,1)",2024,2024-03-01,2,340307
+Flushing-Main St (7),2024,2024-02-01,2,224618
+"59 St-Columbus Circle (A,B,C,D,1)",2023,2023-10-01,2,303762
+"47-50 Sts-Rockefeller Ctr (B,D,F,M)",2023,2023-01-01,2,127550
+"47-50 Sts-Rockefeller Ctr (B,D,F,M)",2022,2022-12-01,2,264937
+"74-Broadway (7)/Jackson Hts-Roosevelt Av (E,F,M,R)",2023,2023-04-01,2,266810
+"59 St-Columbus Circle (A,B,C,D,1)",2021,2021-08-01,2,167129
+"34 St-Penn Station (1,2,3)",2024,2024-02-01,2,206905
+"Grand Central-42 St (S,4,5,6,7)",2023,2023-10-01,2,458305
+"47-50 Sts-Rockefeller Ctr (B,D,F,M)",2021,2021-12-01,2,170678
+"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",2022,2022-08-01,2,331175
+"Grand Central-42 St (S,4,5,6,7)",2020,2020-11-01,2,110427
+"Times Sq-42 St (N,Q,R,W,S,1,2,3,7)/42 St (A,C,E)",2020,2020-08-01,2,199086
+"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",2022,2022-02-01,2,313891
+"Fulton St (A,C,J,Z,2,3,4,5)",2022,2022-02-01,2,173109
+"34 St-Penn Station (A,C,E)",2023,2023-05-01,2,254596
+"59 St-Columbus Circle (A,B,C,D,1)",2023,2023-02-01,2,218542
+"59 St-Columbus Circle (A,B,C,D,1)",2023,2023-01-01,2,241531
+"34 St-Penn Station (1,2,3)",2022,2022-03-01,2,177981
+"Fulton St (A,C,J,Z,2,3,4,5)",2021,2021-07-01,2,168550
+"34 St-Penn Station (A,C,E)",2021,2021-02-01,2,79055
+"34 St-Penn Station (A,C,E)",2020,2020-07-01,2,54528
