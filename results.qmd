@@ -468,4 +468,3 @@ df_list <- list(subway_train_delays_groupwise, mta_ridership_with_groups)
 joined_df_2 <- df_list |> 
   reduce(full_join, by=c('month', 'day_type', 'line'))
 ```
-
