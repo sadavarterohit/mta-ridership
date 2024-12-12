@@ -34,8 +34,10 @@ mta_daily_ridership <- read_csv("data/MTA_Daily_Ridership_Data__Beginning_2020_2
 ```
 ```{r}
 delays_category <- subway_train_delays[,!names(subway_train_delays) %in% c("subcategory")]
-pdf<- delays_category |> group_by(line, reporting_category, month) |> summarise(delays = sum(delays))
+pdf<- delays_category |> group_by(line, reporting_category, month, day_type) |> summarise(delays = sum(delays))
 ```
+# 1.  
+
 ```{r}
 # Define a mapping of subway lines to their respective groups
 subway_groups <- data.frame(
@@ -126,6 +128,190 @@ ggplot(total_delays_per_group, aes(x = month, y = total_delays, color = group, g
 
 ```
 
+```{r fig.width=10}
+# Add a label column for day_type
+pdf_with_groups <- pdf_with_groups %>%
+  mutate(day_label = ifelse(day_type == 1, "Weekday", "Weekend"))
+
+# Calculate total delays per group, month, and day type
+total_delays_per_group_day <- pdf_with_groups %>%
+  group_by(group, month, day_label) %>%
+  summarize(total_delays = sum(delays, na.rm = TRUE), .groups = "drop")
+
+# Create the faceted plot
+ggplot(total_delays_per_group_day, aes(x = month, y = total_delays, color = group, group = group)) +
+  geom_line(linewidth = 1) +
+  
+  scale_color_manual(values = subway_group_colors, labels = custom_legend_labels) +
+  labs(
+    title = "Total Delays Per Month by Subway Group (Weekday vs Weekend)",
+    x = "Month",
+    y = "Total Delays",
+    color = "Subway Group (Lines)"
+  ) +
+  facet_wrap(~ day_label, ncol = 1, scales = "free_y") + # Facet by Weekday/Weekend
+  theme_minimal() +
+  theme(
+    text = element_text(size = 14),
+    legend.position = "right",
+    legend.title = element_text(face = "bold"),
+    strip.text = element_text(face = "bold", size = 12)
+  )
+
+```
+```{r fig.height=10}
+# Calculate total delays per group, month, and reporting category
+total_delays_per_group_category <- pdf_with_groups %>%
+  group_by(group, month, reporting_category) %>%
+  summarize(total_delays = sum(delays, na.rm = TRUE), .groups = "drop")
+
+# Create the faceted plot by reporting category
+ggplot(total_delays_per_group_category, aes(x = month, y = total_delays, color = group, group = group)) +
+  geom_line(linewidth = 1) +
+  
+  scale_color_manual(values = subway_group_colors, labels = custom_legend_labels) +
+  labs(
+    title = "Total Delays Per Month by Subway Group (Faceted by Delay Category)",
+    x = "Month",
+    y = "Total Delays",
+    color = "Subway Group (Lines)"
+  ) +
+  facet_wrap(~ reporting_category, ncol = 2, scales = "free_y") + # Facet by Delay Category
+  theme_minimal() +
+  theme(
+    text = element_text(size = 14),
+    legend.position = "right",
+    legend.title = element_text(face = "bold"),
+    strip.text = element_text(face = "bold", size = 12)
+  )
+
+```
+```{r}
+# Calculate total delays per group and category
+delays_by_group_category <- pdf_with_groups %>%
+  group_by(group, reporting_category) %>%
+  summarize(total_delays = sum(delays, na.rm = TRUE), .groups = "drop")
+
+# Calculate percentage contribution for each group within each category
+delays_percentage <- delays_by_group_category %>%
+  group_by(reporting_category) %>%
+  mutate(percentage = total_delays / sum(total_delays) * 100) %>%
+  ungroup()
+
+# Create the stacked percentage bar chart
+ggplot(delays_percentage, aes(x = reporting_category, y = percentage, fill = group)) +
+  geom_bar(stat = "identity", position = "fill") +  # Use 'fill' for stacked percentage
+  scale_fill_manual(values = subway_group_colors) +
+  labs(
+    title = "Percentage Contribution to Delays by Subway Group for Each Delay Category",
+    x = "Delay Category",
+    y = "Percentage Contribution",
+    fill = "Subway Group (Lines)"
+  ) +
+  theme_minimal() +
+  theme(
+    text = element_text(size = 14),
+    legend.position = "right",
+    legend.title = element_text(face = "bold"),
+    axis.text.x = element_text(angle = 45, hjust = 1) # Rotate x-axis labels for readability
+  )
+
+```
+```{r}
+# Calculate total delays per group and category
+delays_by_group_category <- pdf_with_groups %>%
+  group_by(group, reporting_category) %>%
+  summarize(total_delays = sum(delays, na.rm = TRUE), .groups = "drop")
+
+# Create the stacked bar chart with total delays
+ggplot(delays_by_group_category, aes(x = reporting_category, y = total_delays, fill = group)) +
+  geom_bar(stat = "identity", position = "stack") +  # Use 'stack' for total counts
+  scale_fill_manual(values = subway_group_colors) +
+  labs(
+    title = "Total Delays by Subway Group for Each Delay Category",
+    x = "Delay Category",
+    y = "Total Delays",
+    fill = "Subway Group (Lines)"
+  ) +
+  theme_minimal() +
+  theme(
+    text = element_text(size = 14),
+    legend.position = "right",
+    legend.title = element_text(face = "bold"),
+    axis.text.x = element_text(angle = 45, hjust = 1) # Rotate x-axis labels for readability
+  )
+
+```
+```{r fig.width=10}
+# Normalize the total delays by dividing weekdays by 6 and weekends by 2
+delays_by_group_category_day_normalized <- pdf_with_groups %>%
+  group_by(group, reporting_category, day_label) %>%
+  summarize(total_delays = sum(delays, na.rm = TRUE), .groups = "drop") %>%
+  mutate(
+    normalized_delays = ifelse(day_label == "Weekday", total_delays / 5, total_delays / 2)
+  )
+
+# Create the normalized side-by-side faceted stacked bar chart
+ggplot(delays_by_group_category_day_normalized, aes(x = reporting_category, y = normalized_delays, fill = group)) +
+  geom_bar(stat = "identity", position = "stack") +  # Use 'stack' for normalized counts
+  scale_fill_manual(values = subway_group_colors) +
+  labs(
+    title = "Normalized Total Delays by Subway Group for Each Delay Category (Weekday vs Weekend)",
+    x = "Delay Category",
+    y = "Normalized Delays",
+    fill = "Subway Group (Lines)"
+  ) +
+  facet_wrap(~ day_label, ncol = 2, scales = "fixed") + # Side-by-side facets with fixed Y-axis scales
+  theme_minimal() +
+  theme(
+    text = element_text(size = 14),
+    legend.position = "right",
+    legend.title = element_text(face = "bold"),
+    strip.text = element_text(face = "bold", size = 12),
+    axis.text.x = element_text(angle = 45, hjust = 1) # Rotate x-axis labels for readability
+  )
+
+```
+```{r fig.height=15}
+
+library(ggmosaic)
+
+# Prepare the data for the mosaic plot
+mosaic_data <- pdf_with_groups %>%
+  mutate(day_label = ifelse(day_type == 1, "Weekday", "Weekend")) %>%
+  group_by(group, reporting_category, day_label) %>%
+  summarize(total_delays = sum(delays, na.rm = TRUE), .groups = "drop") %>%
+  mutate(
+    normalized_delays = ifelse(day_label == "Weekday", total_delays / 6, total_delays / 2)
+  )
+
+# Create the mosaic plot
+ggplot(mosaic_data) +
+  geom_mosaic(
+    aes(
+      x = product(reporting_category, day_label),
+      fill = group,
+      weight = normalized_delays
+    )
+  ) +
+  scale_fill_manual(values = subway_group_colors) +
+  labs(
+    title = "Mosaic Plot of Delays by Delay Category, Time Frame, and Subway Group",
+    x = "Delay Category and Time Frame",
+    y = "Proportion",
+    fill = "Subway Group (Lines)"
+  ) +
+  theme_minimal() +
+  theme(
+    text = element_text(size = 14),
+    legend.position = "right",
+    legend.title = element_text(face = "bold"),
+    axis.text.x = element_text(angle = 45, hjust = 1) # Rotate x-axis labels for readability
+  )
+```
+
+
+# 2.
 ```{r}
 nyc_subway_lines <- c("A", "B", "C", "D", "E", "F", "G", "J", "Z", "L", "M", 
                       "N", "Q", "R", "W", "1", "2", "3", "4", "5", "6", "7", "S")
@@ -188,3 +374,72 @@ ggplot(linewise_service_alerts_summary, aes(x = Month_Year, y = Count, group = G
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 ```
+
+
+
+```{r}
+linewise_service_alerts <- mta_service_alerts |> separate_rows(Affected, sep = "\\|") |> 
+  filter(Affected %in% nyc_subway_lines)
+linewise_service_alerts <- linewise_service_alerts %>%
+  mutate(Date = as.Date(Date, format = "%m/%d/%Y %I:%M:%S %p"))
+linewise_service_alerts <- linewise_service_alerts %>%
+  left_join(subway_groups, by = c("Affected" = "line"))
+```
+
+```{r fig.width=10}
+# Merge linewise_service_alerts with subway groups
+
+
+# Group by month and subway group, then count alerts
+alerts_grouped <- linewise_service_alerts %>%
+  mutate(Month = floor_date(Date, "month")) %>%
+  group_by(Month, group) %>%
+  summarise(Count = n(), .groups = "drop")
+
+# Create the line graph
+ggplot(alerts_grouped, aes(x = Month, y = Count, color = group)) +
+  geom_line(size = 1) +
+  scale_color_manual(values = subway_group_colors) +
+  labs(
+    title = "Number of Subway Service Alerts Over Time (Monthly)",
+    x = "Month",
+    y = "Number of Alerts",
+    color = "Subway Group"
+  ) +
+  theme_minimal() +
+  theme(
+    legend.position = "right",
+    legend.title = element_text(size = 10),
+    legend.text = element_text(size = 8),
+    plot.title = element_text(hjust = 0.5, size = 14)
+  )
+```
+```{r}
+linewise_service_alerts <- linewise_service_alerts %>%
+  mutate(Date = as.Date(Date, format = "%m/%d/%Y %I:%M:%S %p"))
+
+# Add a new column `DayType` to indicate weekday or weekend
+linewise_service_alerts <- linewise_service_alerts %>%
+  mutate(DayType = if_else(wday(Date) %in% c(1, 7), "Weekend", "Weekday"))
+```
+```{r}
+# Create the line graph
+ggplot(alerts_grouped, aes(x = Month, y = Count, color = group)) +
+  geom_line(size = 1) +
+  scale_color_manual(values = subway_group_colors) +
+  labs(
+    title = "Number of Subway Service Alerts Over Time (Monthly)",
+    x = "Month",
+    y = "Number of Alerts",
+    color = "Subway Group"
+  ) +
+  theme_minimal() +
+  theme(
+    legend.position = "right",
+    legend.title = element_text(size = 10),
+    legend.text = element_text(size = 8),
+    plot.title = element_text(hjust = 0.5, size = 14)
+  )
+~facet_wrap( ~DayType)
+```
+
