@@ -4,6 +4,9 @@
 #| warning: false
 library(tidyverse)
 library(dplyr)
+library(lubridate)
+library(stringr)
+library(GGally)
 ```
 
 ```{r}
@@ -36,3 +39,433 @@ mta_ridership_new <-
   mta_ridership |>
   select(station_complex, year, month, day_type, ridership)
 ```
+
+```{r}
+head(mta_ridership_new)
+```
+
+
+```{r}
+mta_ridership_new |>
+  filter(station_complex == "116 St-Columbia University (1)", day_type == 1, year == 2023) |>
+  ggplot(aes(x = month, y = ridership)) +
+  geom_col()
+  scale_x_continuous(breaks = seq(1, 12))
+```
+
+```{r}
+mta_ridership_new |>
+  filter(station_complex == "116 St-Columbia University (1)", day_type == 2, year == 2023) |>
+  ggplot(aes(x = month, y = ridership)) +
+  geom_col() +
+  scale_x_continuous(breaks = seq(1, 12))
+```
+```{r}
+mta_ridership
+```
+
+
+```{r}
+# Define a mapping of subway lines to their respective groups
+subway_groups <- data.frame(
+  line = c("1", "2", "3", "4", "5", "6", "7", "A", "C", "E", "B", "D", "F", "M", "G", "J", "Z", "JZ", "L", "N", "Q", "R", "W", "S 42nd", "S Fkln", "S Rock"),
+  group = c(
+    "IRT - Broadway–Seventh Avenue Line",  # 1, 2, 3
+    "IRT - Broadway–Seventh Avenue Line", 
+    "IRT - Broadway–Seventh Avenue Line", 
+    "IRT - Lexington Avenue Line",         # 4, 5, 6
+    "IRT - Lexington Avenue Line", 
+    "IRT - Lexington Avenue Line", 
+    "IRT - Flushing Line",                 # 7
+    "IND - Eighth Avenue Line",            # A, C, E
+    "IND - Eighth Avenue Line", 
+    "IND - Eighth Avenue Line", 
+    "IND - Sixth Avenue Line",             # B, D, F, M
+    "IND - Sixth Avenue Line", 
+    "IND - Sixth Avenue Line", 
+    "IND - Sixth Avenue Line", 
+    "IND - Crosstown Line",                # G
+    "BMT - Nassau Street Line",            # J, Z
+    "BMT - Nassau Street Line", 
+    "BMT - Nassau Street Line",
+    "BMT - Canarsie Line",                 # L
+    "BMT - Broadway Line",                 # N, Q, R, W
+    "BMT - Broadway Line", 
+    "BMT - Broadway Line", 
+    "BMT - Broadway Line",
+    "Shuttles",                            # All S lines
+    "Shuttles",
+    "Shuttles"
+  )
+)
+```
+
+```{r}
+subway_wait_assessment_with_groups <- subway_wait_assessment_filtered |>
+  left_join(subway_groups, by = "line")
+```
+
+```{r}
+head(subway_wait_assessment_with_groups)
+```
+```{r}
+# Define custom colors for the subway groups (based on NYC Subway colors)
+subway_group_colors <- c(
+  "IRT - Broadway–Seventh Avenue Line" = "#EE352E",# Red
+  "IRT - Lexington Avenue Line" = "#00933C",       # Green
+  "IRT - Flushing Line" = "#B933AD",               # Purple
+  "IND - Eighth Avenue Line" = "#0039A6",          # Blue
+  "IND - Sixth Avenue Line" = "#FF6319",           # Orange
+  "IND - Crosstown Line" = "#6CBE45",              # Light Green
+  "BMT - Nassau Street Line" = "#996633",          # Brown
+  "BMT - Canarsie Line" = "#A7A9AC",               # Gray
+  "BMT - Broadway Line" = "#FCCC0A",               # Yellow
+  "Shuttles" = "#808183"                           # Dark Slate Gray
+)
+```
+
+```{r}
+# Define custom legend labels, showing group name and corresponding lines
+custom_legend_labels <- c(
+  "IRT - Broadway–Seventh Avenue Line" = "1, 2, 3",
+  "IRT - Lexington Avenue Line" = "4, 5, 6",
+  "IRT - Flushing Line" = "Flushing (7)",
+  "IND - Eighth Avenue Line" = "A, C, E",
+  "IND - Sixth Avenue Line" = "B, D, F, M",
+  "IND - Crosstown Line" = "Crosstown (G)",
+  "BMT - Nassau Street Line" = "J, Z",
+  "BMT - Canarsie Line" = "L",
+  "BMT - Broadway Line" = "N, Q, R, W",
+  "Shuttles" = "S lines"
+)
+```
+
+```{r}
+# Recompute the timepoint counts over each group
+wait_assessment_groupwise <- subway_wait_assessment_with_groups |>
+  group_by(group, month) |>
+  summarize(tp_passed = sum(num_timepoints_passing_wait_assessment, na.rm = TRUE),
+            tp_sched = sum(num_sched_timepoints, na.rm = TRUE),
+            .groups = "drop") |>
+  mutate(`wait assessment` = 1 - tp_passed/tp_sched) |>
+  ungroup() |>
+  drop_na(group)
+```
+
+```{r}
+head(wait_assessment_groupwise)
+```
+
+```{r}
+ggplot(wait_assessment_groupwise, aes(x = month, y = `wait assessment`, color = group, group = group)) +
+  geom_line(size = 1) +
+  
+  scale_color_manual(values = subway_group_colors, labels = custom_legend_labels) +
+  labs(
+    title = "Monthly Wait Assessment by Subway Group",
+    x = "Month",
+    y = "Fraction of timepoints not passing the wait assessment",
+    color = "Subway Group (Lines)"
+  ) +
+  theme_minimal() +
+  theme(
+    text = element_text(size = 14),
+    legend.position = "right",
+    legend.title = element_text(face = "bold")
+  )
+```
+```{r}
+# Now try grouping by day type as well
+wait_assessment_groupwise_v2 <- subway_wait_assessment_with_groups |>
+  group_by(group, month, day_type) |>
+  summarize(tp_passed = sum(num_timepoints_passing_wait_assessment, na.rm = TRUE),
+            tp_sched = sum(num_sched_timepoints, na.rm = TRUE),
+            .groups = "drop") |>
+  mutate(`wait assessment` = 1 - tp_passed/tp_sched) |>
+  ungroup() |>
+  drop_na(group)
+```
+
+```{r}
+#| fig-width: 12
+ggplot(wait_assessment_groupwise_v2, aes(x = month, y = `wait assessment`, color = group, group = group)) +
+  geom_line(size = 1) +
+  facet_wrap(~day_type) +
+  scale_color_manual(values = subway_group_colors, labels = custom_legend_labels) +
+  labs(
+    title = "Monthly Wait Assessment by Subway Group",
+    x = "Month",
+    y = "Fraction of timepoints not passing the wait assessment",
+    color = "Subway Group (Lines)"
+  ) +
+  theme_minimal() +
+  theme(
+    text = element_text(size = 14),
+    legend.position = "right",
+    legend.title = element_text(face = "bold")
+  )
+```
+```{r}
+# Now try grouping by period
+wait_assessment_groupwise_v3 <- subway_wait_assessment_with_groups |>
+  group_by(group, month, period) |>
+  summarize(tp_passed = sum(num_timepoints_passing_wait_assessment, na.rm = TRUE),
+            tp_sched = sum(num_sched_timepoints, na.rm = TRUE),
+            .groups = "drop") |>
+  mutate(`wait assessment` = 1- tp_passed/tp_sched) |>
+  ungroup() |>
+  drop_na(group)
+```
+
+```{r}
+#| fig-width: 12
+ggplot(wait_assessment_groupwise_v3, aes(x = month, y = `wait assessment`, color = group, group = group)) +
+  geom_line(size = 1) +
+  facet_wrap(~period) +
+  scale_color_manual(values = subway_group_colors, labels = custom_legend_labels) +
+  labs(
+    title = "Monthly Wait Assessment by Subway Group",
+    x = "Month",
+    y = "Fraction of timepoints not passing the wait assessment",
+    color = "Subway Group (Lines)"
+  ) +
+  theme_minimal() +
+  theme(
+    text = element_text(size = 14),
+    legend.position = "right",
+    legend.title = element_text(face = "bold")
+  )
+```
+```{r}
+monthly_delays <- subway_train_delays_filtered |> 
+  group_by(month, day_type) |>
+  summarize(delays = sum(delays)) |>
+  ungroup()
+```
+
+
+```{r}
+monthly_wait_assessment <- subway_wait_assessment_filtered |>
+  group_by(month, day_type) |>
+  summarize(tp_passed = sum(num_timepoints_passing_wait_assessment, na.rm = TRUE),
+            tp_sched = sum(num_sched_timepoints, na.rm = TRUE)) |>
+  mutate(`wait assessment` = tp_passed/tp_sched) |>
+  ungroup()
+```
+
+```{r}
+monthly_service_alerts <- mta_service_alerts_filtered |> 
+  mutate(month = make_date(year(Date), month(Date), 1), 
+         day_type = ifelse(wday(Date) %in% c(1, 7), 2, 1)) |>
+  group_by(month, day_type) |>
+  summarize(alert_count = n()) |>
+  ungroup()
+```
+```{r}
+monthly_mta_ridership <- mta_ridership_new |>
+  mutate(month = make_date(year, month, 1)) |>
+  group_by(month, day_type) |>
+  summarize(ridership = sum(ridership)) |>
+  ungroup()
+```
+```{r}
+df_list <- list(monthly_delays, monthly_service_alerts, monthly_wait_assessment, monthly_mta_ridership)
+joined_df <- df_list |> 
+  reduce(full_join, by=c('month', 'day_type'))
+```
+
+```{r}
+joined_df |>
+  filter(day_type == 1) |>
+  mutate(index_delays = round(100*delays/delays[1], 2),
+         index_alert_count = round(100*alert_count/alert_count[1], 2),
+         index_wait_assmt = round(100*`wait assessment`/`wait assessment`[1], 2),
+         index_ridership = round(100*ridership/ridership[1], 2)) |>
+  select(month, index_delays, index_alert_count, index_wait_assmt, index_ridership) |>
+  pivot_longer(!month, names_to = "parameter", values_to = "index") |>
+  ggplot(aes(x = month, y = index, color = parameter)) +
+  geom_line(aes(group = parameter))
+```
+```{r}
+joined_df |>
+  filter(day_type == 2) |>
+  mutate(index_delays = round(100*delays/delays[1], 2),
+         index_alert_count = round(100*alert_count/alert_count[1], 2),
+         index_wait_assmt = round(100*`wait assessment`/`wait assessment`[1], 2),
+         index_ridership = round(100*ridership/ridership[1], 2)) |>
+  select(month, index_delays, index_alert_count, index_wait_assmt, index_ridership) |>
+  pivot_longer(!month, names_to = "parameter", values_to = "index") |>
+  ggplot(aes(x = month, y = index, color = parameter)) +
+  geom_line(aes(group = parameter))
+```
+
+Factor out the pandemic effect:
+
+```{r}
+joined_df_post_pandemic <- joined_df |>
+  filter(month >= "2022-07-01")
+```
+
+
+```{r}
+# Use
+joined_df_post_pandemic |>
+  filter(day_type == 1) |>
+  mutate(index_delays = round(100*delays/delays[1], 2),
+         index_alert_count = round(100*alert_count/alert_count[1], 2),
+         index_wait_assmt = round(100*`wait assessment`/`wait assessment`[1], 2),
+         index_ridership = round(100*ridership/ridership[1], 2)) |>
+  select(month, index_delays, index_alert_count, index_wait_assmt, index_ridership) |>
+  pivot_longer(!month, names_to = "parameter", values_to = "index") |>
+  ggplot(aes(x = month, y = index, color = parameter)) +
+  geom_line(aes(group = parameter))
+```
+```{r}
+joined_df_post_pandemic |>
+  filter(day_type == 2) |>
+  mutate(index_delays = round(100*delays/delays[1], 2),
+         index_alert_count = round(100*alert_count/alert_count[1], 2),
+         index_wait_assmt = round(100*`wait assessment`/`wait assessment`[1], 2),
+         index_ridership = round(100*ridership/ridership[1], 2)) |>
+  select(month, index_delays, index_alert_count, index_wait_assmt, index_ridership) |>
+  pivot_longer(!month, names_to = "parameter", values_to = "index") |>
+  ggplot(aes(x = month, y = index, color = parameter)) +
+  geom_line(aes(group = parameter))
+```
+
+Scatterplots:
+
+```{r}
+joined_df |>
+  ggplot(aes(x = delays, y = ridership, color = factor(day_type))) +
+  geom_point()
+```
+```{r}
+joined_df |>
+  filter(day_type == 1) |>
+  ggplot(aes(x = delays, y = ridership)) +
+  geom_point()
+```
+```{r}
+joined_df |>
+  filter(day_type == 2) |>
+  ggplot(aes(x = delays, y = ridership)) +
+  geom_point()
+```
+```{r}
+joined_df |>
+  filter(day_type == 1) |>
+  select(delays, alert_count, `wait assessment`, ridership) |>
+  ggpairs()
+```
+```{r}
+joined_df_post_pandemic |>
+  filter(day_type == 1) |>
+  select(delays, alert_count, `wait assessment`, ridership) |>
+  ggpairs()
+```
+
+
+```{r}
+get_subway_lines <- function(stn) {
+  idx <- str_locate(stn, "\\([^\\(]*\\)$")
+  return(str_sub(stn, idx[1]+1, idx[2]-1))
+}
+get_subway_lines_vct <- Vectorize(get_subway_lines)
+```
+
+
+```{r}
+mta_ridership_with_lines <- mta_ridership_new |>
+  mutate(month = make_date(year, month, 1), 
+         line = get_subway_lines_vct(station_complex))
+```
+
+```{r}
+mta_ridership_separated <- mta_ridership_with_lines |>
+  separate_rows(line, sep=",")
+```
+
+```{r}
+mta_ridership_with_groups <- mta_ridership_separated |>
+  left_join(subway_groups, by = "line")
+```
+
+```{r}
+mta_total_ridership <- mta_ridership_with_groups |>
+  select(-line) |>
+  distinct(.keep_all = TRUE) |>
+  group_by(group, month) |>
+  summarize(ridership = sum(ridership, na.rm = TRUE),
+            .groups = "drop") |>
+  ungroup() |>
+  drop_na(group)
+```
+
+```{r}
+ggplot(mta_total_ridership, aes(x = month, y = ridership, color = group, group = group)) +
+  geom_line(size = 1) +
+  
+  scale_color_manual(values = subway_group_colors, labels = custom_legend_labels) +
+  labs(
+    title = "Monthly Ridership by Subway Group",
+    x = "Month",
+    y = "Total Ridership",
+    color = "Subway Group (Lines)"
+  ) +
+  theme_minimal() +
+  theme(
+    text = element_text(size = 14),
+    legend.position = "right",
+    legend.title = element_text(face = "bold")
+  )
+```
+```{r}
+mta_total_ridership_day_type <- mta_ridership_with_groups |>
+  group_by(group, month, day_type) |>
+  summarize(ridership = sum(ridership, na.rm = TRUE),
+            .groups = "drop") |>
+  ungroup() |>
+  drop_na(group)
+```
+
+```{r}
+ggplot(mta_total_ridership_day_type, aes(x = month, y = ridership, color = group, group = group)) +
+  geom_line(size = 1) +
+  facet_wrap(~day_type, scales = "free_y") +
+  scale_color_manual(values = subway_group_colors, labels = custom_legend_labels) +
+  labs(
+    title = "Monthly Ridership by Subway Group",
+    x = "Month",
+    y = "Total Ridership",
+    color = "Subway Group (Lines)"
+  ) +
+  theme_minimal() +
+  theme(
+    text = element_text(size = 14),
+    legend.position = "right",
+    legend.title = element_text(face = "bold")
+  )
+```
+```{r}
+nyc_subway_lines <- c("A", "B", "C", "D", "E", "F", "G", "J", "Z", "L", "M", 
+                      "N", "Q", "R", "W", "1", "2", "3", "4", "5", "6", "7", "S")
+mta_service_alerts_groupwise <- mta_service_alerts_filtered |> 
+  separate_rows(Affected, sep = "\\|") |> 
+  filter(Affected %in% nyc_subway_lines) |>
+  mutate(line = Affected) |>
+  left_join(subway_groups, by = "line")
+```
+
+```{r}
+subway_train_delays_groupwise <- subway_train_delays_filtered |>
+  left_join(subway_groups, by = "line")
+```
+
+
+```{r}
+df_list <- list(subway_train_delays_groupwise, mta_ridership_with_groups)
+joined_df_2 <- df_list |> 
+  reduce(full_join, by=c('month', 'day_type', 'line'))
+```
+
