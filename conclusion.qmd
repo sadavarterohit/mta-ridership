@@ -1,1 +1,11 @@
 # Conclusion
+
+Through this project, we have explored the reliability of the New York Subway system and its overall ridership since the 2020 pandemic. The Insights we have gained through the various graphs could be useful to the MTA team working on the servicing. The main insights that we have gained can be summarised as : 
+
+1. Although the NY subway is the most used public transport system used in the city, it has many reliability issues.
+2. The A-C-E lines have had and continue to see a major increase in the quality of infrastructure and subsequently, the number of planned delays have gone up, while the operational delays has gone down.
+3. A Huge spike in the delays has been seen in the crew availability related delays in the year 2021, however delays still continue to this day.
+4. The 4-5-6 lines see a large amount of Police / Medical related delays, which can be attributed to the boroughs it connects.
+5. The most surprising part about these delays is that the delays, whether planned or unplanned are majorly affecting weekdays than weekends. This is an issue for the daily commuter in NYC.
+6. Another issue relates to the alerts. As for the number of alerts, although the delays are larger in number on weekdays, the average number of alerts are higher on weekdays than on weekends.
+7. A major design achievement of the NYC subway system apart from the obvious amazing connectivity to most boroughs is that all the major stations follow a similar pattern in terms of the total footfall. This number has only gone up since 2020, as the pandemic eased.
