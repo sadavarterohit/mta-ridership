@@ -128,6 +128,7 @@ ggplot(total_delays_per_group, aes(x = month, y = total_delays, color = group, g
 
 ```
 
+
 ```{r fig.width=10}
 # Add a label column for day_type
 pdf_with_groups <- pdf_with_groups %>%
@@ -158,7 +159,8 @@ ggplot(total_delays_per_group_day, aes(x = month, y = total_delays, color = grou
     strip.text = element_text(face = "bold", size = 12)
   )
 
-```
+``` 
+
 ```{r fig.height=10}
 # Calculate total delays per group, month, and reporting category
 total_delays_per_group_category <- pdf_with_groups %>%
@@ -441,5 +443,1113 @@ ggplot(alerts_grouped, aes(x = Month, y = Count, color = group)) +
     plot.title = element_text(hjust = 0.5, size = 14)
   )
 ~facet_wrap( ~DayType)
+```
+```{r}
+library(ggplot2)
+library(dplyr)
+
+# Aggregate the data by Status Label and DayType
+status_summary <- linewise_service_alerts %>%
+  group_by(`Status Label`, DayType) %>%
+  summarise(Count = n(), .groups = "drop") %>%
+  group_by(`Status Label`) %>%
+  summarise(TotalCount = sum(Count), .groups = "drop") %>%
+  arrange(desc(TotalCount)) %>%
+  slice_head(n = 10)
+
+# Filter the original dataset to include only the top 5 Status Labels
+top_status_labels <- status_summary$`Status Label`
+
+filtered_data <- linewise_service_alerts %>%
+  filter(`Status Label` %in% top_status_labels) %>%
+  group_by(`Status Label`, DayType) %>%
+  summarise(Count = n(), .groups = "drop")
+
+# Order `Status Label` by Total Count (descending order)
+filtered_data <- filtered_data %>%
+  mutate(`Status Label` = factor(`Status Label`, levels = top_status_labels))
+
+# Create the stacked bar chart
+ggplot(filtered_data, aes(x = `Status Label`, y = Count, fill = DayType)) +
+  geom_bar(stat = "identity", position = "stack") +
+  labs(
+    title = "Top 5 Status Labels by Maximum Number of Service Alerts",
+    x = "Status Label",
+    y = "Total Number of Alerts",
+    fill = "Day Type"
+  ) +
+  theme_minimal() +
+  theme(
+     axis.text.x = element_text(angle = 45, hjust = 1),
+    plot.title = element_text(hjust = 0.5, size = 14)
+  )
+```
+```{r}
+library(ggplot2)
+library(dplyr)
+library(lubridate)
+
+# Assume `linewise_service_alerts` is the dataframe
+
+# Step 1: Map subway lines to their groups
+linewise_service_alerts <- linewise_service_alerts %>%
+  mutate(group = subway_groups$group[match(`Affected`, subway_groups$line)])
+
+# Step 2: Filter for only subway lines
+filtered_alerts <- linewise_service_alerts %>%
+  filter(!is.na(group))
+
+# Step 3: Add a month column for aggregation
+filtered_alerts <- filtered_alerts %>%
+  mutate(month = month(Date, label = TRUE, abbr = TRUE))  # Extract month name
+
+# Step 4: Count alerts by month and day type
+monthly_alerts <- filtered_alerts %>%
+  group_by(month, DayType) %>%
+  summarise(alert_count = n(), .groups = 'drop')
+
+# Step 5: Plot the data
+ggplot(monthly_alerts, aes(x = month, y = alert_count)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  facet_wrap(~ DayType, scales = "free_y") +
+  scale_fill_manual(values = subway_group_colors, labels = custom_legend_labels) +
+  labs(
+    title = "Monthly Subway Alerts by Day Type",
+    x = "Month",
+    y = "Number of Alerts",
+    fill = "Subway Group"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  )
+
+```
+```{r}
+library(ggplot2)
+library(dplyr)
+library(lubridate)
+
+# Assume `linewise_service_alerts` is the dataframe
+
+# Step 1: Map subway lines to their groups
+linewise_service_alerts <- linewise_service_alerts %>%
+  mutate(group = subway_groups$group[match(`Affected`, subway_groups$line)])
+
+# Step 2: Filter for only subway lines
+filtered_alerts <- linewise_service_alerts %>%
+  filter(!is.na(group))
+
+# Step 3: Add a month column for aggregation
+filtered_alerts <- filtered_alerts %>%
+  mutate(month = month(Date, label = TRUE, abbr = TRUE))  # Extract month name
+
+# Step 4: Count alerts by month and day type and adjust counts
+adjusted_alerts <- filtered_alerts %>%
+  group_by(month, DayType) %>%
+  summarise(alert_count = n(), .groups = 'drop') %>%
+  mutate(adjusted_alert_count = ifelse(DayType == "Weekday", alert_count / 5, alert_count / 2))
+
+# Step 5: Plot the data
+ggplot(adjusted_alerts, aes(x = month, y = adjusted_alert_count, color = DayType, group = DayType)) +
+  geom_line(size = 1.2) +
+  geom_point(size = 3) +
+  scale_color_manual(values = c("Weekday" = "#1f77b4", "Weekend" = "#ff7f0e")) +
+  labs(
+    title = "Adjusted Monthly Subway Alerts by Day Type",
+    x = "Month",
+    y = "Adjusted Number of Alerts",
+    color = "Day Type"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  )
+
+```
+```{r}
+library(ggplot2)
+library(dplyr)
+library(lubridate)
+
+# Step 1: Map subway lines to their groups
+linewise_service_alerts <- linewise_service_alerts %>%
+  mutate(group = subway_groups$group[match(`Affected`, subway_groups$line)])
+
+# Step 2: Filter for only subway lines
+filtered_alerts <- linewise_service_alerts %>%
+  filter(!is.na(group))
+
+# Step 3: Adjust alert counts for Weekday and Weekend
+filtered_alerts <- filtered_alerts %>%
+  mutate(
+    adjusted_alert_count = ifelse(DayType == "Weekday", 1 / 5, 1 / 2),  # Adjust counts
+    Date = as.Date(Date)  # Ensure Date is in proper format
+  )
+
+# Step 4: Plot the data over time
+ggplot(filtered_alerts, aes(x = Date, y = adjusted_alert_count, color = DayType, group = DayType)) +
+  geom_line(size = 1.2) +
+  geom_point(size = 1, alpha = 0.6) +  # Optional: Add points for better visibility
+  scale_color_manual(values = c("Weekday" = "#1f77b4", "Weekend" = "#ff7f0e")) +
+  labs(
+    title = "Adjusted Daily Subway Alerts by Day Type",
+    x = "Date",
+    y = "Adjusted Number of Alerts",
+    color = "Day Type"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  )
+
+```
+```{r}
+library(ggplot2)
+library(dplyr)
+library(lubridate)
+
+# Step 1: Filter for NYCT subway data
+filtered_alerts <- linewise_service_alerts %>%
+  filter(Agency == "NYCT Subway") %>%
+  mutate(
+    adjusted_alert_count = ifelse(DayType == "Weekday", 1 / 5, 1 / 2),  # Adjust counts
+    Date = as.Date(Date)  # Ensure Date is in proper format
+  )
+
+# Step 2: Plot the data over time
+ggplot(filtered_alerts, aes(x = Date, y = adjusted_alert_count, color = DayType, group = DayType)) +
+  geom_line(size = 1.2) +
+  geom_point(size = 1, alpha = 0.6) +  # Optional: Add points for better visibility
+  scale_color_manual(values = c("Weekday" = "#1f77b4", "Weekend" = "#ff7f0e")) +
+  labs(
+    title = "Adjusted Daily Subway Alerts by Day Type",
+    x = "Date",
+    y = "Adjusted Number of Alerts",
+    color = "Day Type"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  )
+
+```
+```{r}
+library(ggplot2)
+library(dplyr)
+library(lubridate)
+
+# Step 1: Filter for NYCT subway data
+filtered_alerts <- linewise_service_alerts %>%
+  filter(Agency == "NYCT Subway") %>%
+  mutate(Date = as.Date(Date))  # Ensure Date is in proper format
+
+# Step 2: Calculate daily alert counts
+daily_alerts <- filtered_alerts %>%
+  group_by(Date, DayType) %>%
+  summarise(alert_count = n(), .groups = 'drop')  # Count alerts by date and day type
+
+# Step 3: Adjust alert counts for Weekday and Weekend
+daily_alerts <- daily_alerts %>%
+  mutate(
+    adjusted_alert_count = ifelse(DayType == "Weekday", alert_count / 5, alert_count / 2)
+  )
+
+# Step 4: Plot the data over the entire time period
+ggplot(daily_alerts, aes(x = Date, y = adjusted_alert_count, color = DayType, group = DayType)) +
+  geom_line(size = 1.0) +
+  scale_color_manual(values = c("Weekday" = "#1f77b4", "Weekend" = "#ff7f0e")) +
+  labs(
+    title = "Adjusted Daily Subway Alerts by Day Type",
+    x = "Date",
+    y = "Adjusted Number of Alerts",
+    color = "Day Type"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  )
+
+```
+```{r}
+library(ggplot2)
+library(dplyr)
+library(lubridate)
+
+# Step 1: Filter for NYCT subway data
+filtered_alerts <- linewise_service_alerts %>%
+  filter(Agency == "NYCT Subway") %>%
+  mutate(Date = as.Date(Date))  # Ensure Date is in proper format
+
+# Step 2: Calculate daily alert counts
+daily_alerts <- filtered_alerts %>%
+  group_by(Date, DayType) %>%
+  summarise(alert_count = n(), .groups = 'drop')  # Count alerts by date and day type
+
+# Step 3: Adjust alert counts for Weekday and Weekend
+daily_alerts <- daily_alerts %>%
+  mutate(
+    adjusted_alert_count = ifelse(DayType == "Weekday", alert_count / 5, alert_count / 2)
+  )
+
+# Step 4: Plot the data over the entire time period with smoothing
+ggplot(daily_alerts, aes(x = Date, y = adjusted_alert_count, color = DayType, group = DayType)) +
+  geom_point(size = 1, alpha = 0.6) +  # Optional: Add points for better visibility
+  geom_smooth(se = FALSE, method = "loess", span = 0.3, size = 1.2) +  # Add a smoother line
+  scale_color_manual(values = c("Weekday" = "#1f77b4", "Weekend" = "#ff7f0e")) +
+  labs(
+    title = "Smoothed Adjusted Daily Subway Alerts by Day Type",
+    x = "Date",
+    y = "Adjusted Number of Alerts",
+    color = "Day Type"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  )
+
+```
+
+```{r}
+library(ggplot2)
+library(dplyr)
+
+# Normalize the data by dividing weekday counts by 5 and weekend counts by 2
+normalized_data <- linewise_service_alerts %>%
+  group_by(`Status Label`, DayType) %>%
+  summarise(Count = n(), .groups = "drop") %>%
+  mutate(NormalizedCount = if_else(DayType == "Weekday", Count / 5, Count / 2))
+
+# Aggregate the total normalized count for each Status Label
+status_summary <- normalized_data %>%
+  group_by(`Status Label`) %>%
+  summarise(TotalNormalizedCount = sum(NormalizedCount), .groups = "drop") %>%
+  arrange(desc(TotalNormalizedCount)) %>%
+  slice_head(n = 10)
+
+# Filter the dataset to include only the top 5 Status Labels
+top_status_labels <- status_summary$`Status Label`
+
+filtered_data <- normalized_data %>%
+  filter(`Status Label` %in% top_status_labels) %>%
+  mutate(`Status Label` = factor(`Status Label`, levels = top_status_labels))
+
+# Create the stacked bar chart with normalized counts
+ggplot(filtered_data, aes(x = `Status Label`, y = NormalizedCount, fill = DayType)) +
+  geom_bar(stat = "identity", position = "stack") +
+  labs(
+    title = "Top 5 Status Labels by Normalized Number of Service Alerts",
+    x = "Status Label",
+    y = "Normalized Number of Alerts",
+    fill = "Day Type"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    plot.title = element_text(hjust = 0.5, size = 14)
+  )
+
+```
+```{r}
+library(ggplot2)
+
+ggplot(mta_ridership, aes(x = factor(month), y = proportion, fill = factor(day_type))) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Proportion of Ridership by Month and Day Type",
+       x = "Month",
+       y = "Proportion",
+       fill = "Day Type") +
+  theme_minimal()
+
+
+```
+
+```{r}
+ggplot(mta_ridership, aes(x = total_ridership, y = proportion)) +
+  geom_point(aes(color = factor(month)), size = 3) +
+  facet_wrap(~ day_type) +
+  labs(title = "Total Ridership vs. Proportion by Day Type",
+       x = "Total Ridership",
+       y = "Proportion",
+       color = "Month") +
+  theme_minimal()
+
+
+```
+```{r}
+library(ggplot2)
+ggplot(joined_df, aes(x = month)) +
+  geom_line(aes(y = delays, color = "Delays")) +
+  geom_line(aes(y = alert_count, color = "Alert Count")) +
+  labs(title = "Trends in Delays and Alert Counts Over Time",
+       x = "Month",
+       y = "Count") +
+  scale_color_manual(values = c("Delays" = "red", "Alert Count" = "blue"))
+
+```
+```{r}
+ggplot(joined_df, aes(x = month, y = as.factor(day_type), fill = `wait assessment`)) +
+  geom_tile() +
+  scale_fill_gradient(low = "yellow", high = "red") +
+  labs(title = "Wait Assessment Heatmap by Month and Day Type",
+       x = "Month",
+       y = "Day Type",
+       fill = "Wait Assessment")
+
+
+```
+```{r}
+library(ggplot2)
+library(scales) # For better date formatting
+
+# Ensure month is a proper date or factor for ordering
+joined_df$month <- as.Date(joined_df$month)
+
+# Update ggplot
+ggplot(joined_df, aes(x = month, y = as.factor(day_type), fill = `wait assessment`)) +
+  geom_tile(color = "white") + # Add gridlines for better distinction
+  scale_fill_gradient2(low = "blue", mid = "white", high = "red", midpoint = 0.75, 
+                       name = "Wait Assessment") + # Diverging palette with midpoint
+  scale_x_date(labels = date_format("%b %Y"), breaks = "1 month") + # Format x-axis
+  labs(
+    title = "Wait Assessment Heatmap by Month and Day Type",
+    x = "Month",
+    y = "Day Type",
+    fill = "Wait Assessment"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1), # Rotate x-axis text
+    plot.title = element_text(face = "bold", hjust = 0.5) # Center title
+  )
+
+```
+```{r}
+library(ggplot2)
+library(scales) # For better date formatting
+
+# Ensure the `month` column is properly formatted as a Date type
+joined_df$month <- as.Date(joined_df$month)
+
+# Plot
+ggplot(joined_df, aes(x = month, y = as.factor(day_type), fill = `wait assessment`)) +
+  geom_tile(color = "white") + # Add borders for clarity
+  scale_fill_gradient(low = "#FFDDC1", high = "#FF5733", name = "Wait Assessment") + # Sequential reddish palette
+  scale_x_date(labels = date_format("%b %Y"), breaks = "1 month") + # Format x-axis
+  labs(
+    title = "Wait Assessment Heatmap by Month and Day Type",
+    x = "Month",
+    y = "Day Type",
+    fill = "Wait Assessment"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1), # Rotate x-axis text for better alignment
+    axis.text.y = element_text(size = 12), # Adjust font size for y-axis labels
+    plot.title = element_text(face = "bold", hjust = 0.5), # Center and bold the title
+    legend.position = "right" # Position the legend on the right for better layout
+  )
+
+```
+```{r}
+library(ggplot2)
+library(scales) # For better date formatting
+
+# Convert `month` to a Date type
+joined_df$month <- as.Date(joined_df$month)
+
+# Replace `day_type` values with labels
+joined_df$day_type <- factor(joined_df$day_type, levels = c(1, 2), labels = c("Weekday", "Weekend"))
+
+# Plot
+ggplot(joined_df, aes(x = month, y = day_type, fill = `wait assessment`)) +
+  geom_tile(color = "white") + # Add borders for better distinction
+  scale_fill_gradientn(
+    colors = c("#FFE5D9", "#FFB3A7", "#FF8170", "#FF5733", "#C70039"),
+    name = "Wait Assessment"
+  ) + # Sequential reddish palette with more shades
+  scale_x_date(labels = date_format("%b %Y"), breaks = "1 month") + # Format x-axis
+  labs(
+    title = "Wait Assessment Heatmap by Month and Day Type",
+    x = "Month",
+    y = "Day Type",
+    fill = "Wait Assessment"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1), # Rotate x-axis text for readability
+    axis.text.y = element_text(size = 12), # Adjust font size for y-axis labels
+    plot.title = element_text(face = "bold", hjust = 0.5), # Center and bold the title
+    legend.position = "right" # Place legend on the right
+  )
+
+```
+```{r}
+library(ggplot2)
+library(scales) # For better date formatting
+
+# Convert `month` to a Date type
+joined_df$month <- as.Date(joined_df$month)
+
+# Replace `day_type` values with labels
+joined_df$day_type <- factor(joined_df$day_type, levels = c(1, 2), labels = c("Weekday", "Weekend"))
+
+# Create a new column for `1 - wait assessment`
+joined_df$inverted_wait <- 1 - joined_df$`wait assessment`
+
+# Plot
+ggplot(joined_df, aes(x = month, y = day_type, fill = inverted_wait)) +
+  geom_tile(color = "white") + # Add borders for better distinction
+  scale_fill_gradientn(
+    colors = c("#FFE5D9", "#FFB3A7", "#FF8170", "#FF5733", "#C70039"),
+    name = "1 - Wait Assessment"
+  ) + # Sequential reddish palette where redder is worse
+  scale_x_date(labels = date_format("%b %Y"), breaks = "1 month") + # Format x-axis
+  labs(
+    title = "Heatmap of 1 - Wait Assessment by Month and Day Type",
+    x = "Month",
+    y = "Day Type",
+    fill = "1 - Wait Assessment"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1), # Rotate x-axis text for readability
+    axis.text.y = element_text(size = 12), # Adjust font size for y-axis labels
+    plot.title = element_text(face = "bold", hjust = 0.5), # Center and bold the title
+    legend.position = "right" # Place legend on the right
+  )
+
+```
+```{r}
+library(ggplot2)
+library(scales) # For better date formatting
+
+# Convert `month` to a Date type
+joined_df$month <- as.Date(joined_df$month)
+
+# Replace `day_type` values with labels
+joined_df$day_type <- factor(joined_df$day_type, levels = c(1, 2), labels = c("Weekday", "Weekend"))
+
+# Create a new column for `1 - wait assessment`
+joined_df$inverted_wait <- 1 - joined_df$`wait assessment`
+
+# Plot
+ggplot(joined_df, aes(x = month, fill = inverted_wait)) +
+  geom_tile(aes(y = 1), color = "black") + # Fix height for tiles
+  facet_wrap(~ day_type, scales = "free_y", ncol = 1) + # Separate Weekday and Weekend
+  scale_fill_gradientn(
+    colors = c("#FFE5D9", "#FFB3A7", "#FF8170", "#FF5733", "#C70039"),
+    name = "1 - Wait Assessment"
+  ) +
+  scale_x_date(labels = date_format("%b %Y"), breaks = "1 month") +
+  labs(
+    title = "Heatmap of 1 - Wait Assessment by Month and Day Type",
+    x = "Month",
+    y = "Day Type",
+    fill = "1 - Wait Assessment"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    strip.text = element_text(size = 14, face = "bold"), # Bold facet titles
+    plot.title = element_text(face = "bold", hjust = 0.5),
+    panel.grid = element_blank()
+  )
+
+
+```
+```{r}
+library(ggplot2)
+library(scales) # For date formatting
+
+# Ensure correct mapping for `day_type`
+joined_df$day_type <- ifelse(joined_df$day_type == 1, "Weekday", "Weekend")
+joined_df$day_type <- factor(joined_df$day_type, levels = c("Weekday", "Weekend"))
+
+# Create a new column for `1 - wait assessment`
+joined_df$inverted_wait <- 1 - joined_df$`wait assessment`
+
+# Plot
+ggplot(joined_df, aes(x = month, y = day_type, fill = inverted_wait)) +
+  geom_tile(color = "white", width = 0.9, height = 0.9) + # Adjust tile dimensions
+  scale_fill_gradientn(
+    colors = c("#FFE5D9", "#FFB3A7", "#FF8170", "#FF5733", "#C70039"),
+    name = "1 - Wait Assessment"
+  ) + # Sequential reddish palette
+  scale_x_date(labels = date_format("%b %Y"), breaks = "1 month") + # Format x-axis
+  labs(
+    title = "Heatmap of 1 - Wait Assessment by Month and Day Type",
+    x = "Month",
+    y = "Day Type",
+    fill = "1 - Wait Assessment"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1), # Rotate x-axis text
+    axis.text.y = element_text(size = 14, face = "bold"), # Emphasize y-axis labels
+    plot.title = element_text(face = "bold", hjust = 0.5), # Center and bold the title
+    legend.position = "right", # Legend on the right
+    panel.grid.major = element_blank(), # Remove gridlines
+    panel.grid.minor = element_blank()
+  )
+
+```
+```{r}
+ggplot(joined_df, aes(x = month, y = as.factor(day_type), fill = 1 - `wait assessment`)) +
+  geom_tile() +
+  scale_fill_gradient(low = "white", high = "red") +
+  labs(title = "Heatmap of 1 - Wait Assessment by Month and Day Type",
+       x = "Month",
+       y = "Day Type",
+       fill = "1 - Wait Assessment")
+
+```
+```{r}
+
+
+ggplot(joined_df, aes(x = month, y = as.factor(day_type), fill = 1 - `wait assessment`)) +
+  geom_tile() +
+  scale_fill_gradient(low = "white", high = "red") +
+  scale_y_discrete(labels = c("1" = "Weekday", "2" = "Weekend")) +
+  labs(title = "Heatmap of 1 - Wait Assessment by Month and Day Type",
+       x = "Month",
+       y = "Day Type",
+       fill = "1 - Wait Assessment")
+
+```
+
+```{r}
+# subway_wait_assessment <- read.csv("data/MTA_Subway_Wait_Assessment__Beginning_2020_20241119.csv")
+ggplot(subway_train_delays , aes(x = line, y = delays, color = reporting_category)) +
+  geom_point(alpha = 0.7) +
+  theme_minimal() +
+  labs(title = "Bubble Plot: Line vs Delays with Reporting Category", 
+       x = "Line", 
+       y = "Delays", 
+       size = "Delays", 
+       color = "Reporting Category") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+```{r}
+# Load necessary libraries
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+
+# Load the dataset (replace 'path_to_file' with the actual file path)
+mta_ridership <- read.csv('data/MTA_Daily_Ridership_Data__Beginning_2020_20241120.csv')
+
+# Convert the Date column to Date type
+mta_ridership$Date <- as.Date(mta_ridership$Date, format = "%m/%d/%Y")
+
+# Line Plot: Trends in ridership over time for Subways, Buses, LIRR, and Metro-North
+ggplot(mta_ridership, aes(x = Date)) +
+  geom_line(aes(y = `Subways..Total.Estimated.Ridership`, color = "Subways")) +
+  geom_line(aes(y = `Buses..Total.Estimated.Ridership`, color = "Buses")) +
+  geom_line(aes(y = `LIRR..Total.Estimated.Ridership`, color = "LIRR")) +
+  geom_line(aes(y = `Metro.North..Total.Estimated.Ridership`, color = "Metro-North")) +
+  labs(title = "Ridership Trends Over Time", 
+       x = "Date", 
+       y = "Total Ridership", 
+       color = "Transport Mode") +
+  theme_minimal()
+
+# Bar Plot: Average ridership for each transport mode
+average_ridership <- mta_ridership %>%
+  summarize(
+    Subways = mean(`Subways..Total.Estimated.Ridership`, na.rm = TRUE),
+    Buses = mean(`Buses..Total.Estimated.Ridership`, na.rm = TRUE),
+    LIRR = mean(`LIRR..Total.Estimated.Ridership`, na.rm = TRUE),
+    Metro_North = mean(`Metro.North..Total.Estimated.Ridership`, na.rm = TRUE)
+  ) %>%
+  pivot_longer(cols = everything(), names_to = "Mode", values_to = "Average_Ridership")
+
+ggplot(average_ridership, aes(x = Mode, y = Average_Ridership, fill = Mode)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Average Daily Ridership by Transport Mode", 
+       x = "Transport Mode", 
+       y = "Average Ridership") +
+  theme_minimal()
+
+# Histogram: Distribution of subway ridership
+ggplot(mta_ridership, aes(x = `Subways..Total.Estimated.Ridership`)) +
+  geom_histogram(bins = 30, fill = "steelblue", color = "black") +
+  labs(title = "Distribution of Subway Ridership", 
+       x = "Subway Ridership", 
+       y = "Frequency") +
+  theme_minimal()
+
+# Boxplot: Distribution of total daily ridership for Subways, Buses, LIRR, and Metro-North
+mta_ridership_long <- mta_ridership |>
+  select(Date, 
+         `Subways..Total.Estimated.Ridership`, 
+         `Buses..Total.Estimated.Ridership`, 
+         `LIRR..Total.Estimated.Ridership`, 
+         `Metro.North..Total.Estimated.Ridership`) |>
+  pivot_longer(cols = -Date, names_to = "Transport_Mode", values_to = "Ridership")
+
+ggplot(mta_ridership_long, aes(x = Transport_Mode, y = Ridership, fill = Transport_Mode)) +
+  geom_boxplot() +
+  labs(title = "Distribution of Daily Ridership by Transport Mode", 
+       x = "Transport Mode", 
+       y = "Daily Ridership") +
+  theme_minimal()
+
+# Scatter Plot: Relationship between Subway and Bus ridership
+ggplot(mta_ridership, aes(x = `Subways..Total.Estimated.Ridership`, y = `Buses..Total.Estimated.Ridership`)) +
+  geom_point(color = "darkred", alpha = 0.6) +
+  labs(title = "Relationship Between Subway and Bus Ridership", 
+       x = "Subway Ridership", 
+       y = "Bus Ridership") +
+  theme_minimal()
+
+
+```
+```{r}
+# Load necessary libraries
+library(dplyr)
+library(ggplot2)
+library(FactoMineR)
+library(factoextra)
+
+# Assuming your data is named 'data'
+# Step 1: Extract month from the date and summarize by month (ignoring year)
+summarized_data <- joined_df %>%
+  mutate(month_only = format(as.Date(month), "%m")) %>% # Extract only the month
+  group_by(month_only) %>%
+  summarise(
+    avg_delays = mean(delays, na.rm = TRUE),
+    avg_alert_count = mean(alert_count, na.rm = TRUE),
+    avg_tp_passed = mean(tp_passed, na.rm = TRUE),
+    avg_tp_sched = mean(tp_sched, na.rm = TRUE),
+    avg_ridership = mean(ridership, na.rm = TRUE)
+  ) %>%
+  mutate(
+    recalculated_wait_assessment = avg_tp_passed / avg_tp_sched
+  ) %>%
+  select(month_only, avg_delays, avg_alert_count, recalculated_wait_assessment, avg_ridership)
+
+# Step 2: Prepare data for PCA (excluding the 'month_only' column)
+pca_data <- summarized_data %>%
+  select(-month_only)
+
+# Step 3: Perform PCA
+pca_result <- PCA(pca_data, scale.unit = TRUE, graph = FALSE)
+
+# Step 4: Draw the biplot with labels
+fviz_pca_biplot(
+  pca_result,
+  repel = TRUE,           # Avoid overlapping text
+  label = "var",          # Label variables
+  col.var = "steelblue",  # Color for variables
+  col.ind = "darkred",    # Color for individuals
+  title = "PCA Biplot of Monthly Averages for Delays, Alert Count, Wait Assessment, and Ridership"
+) +
+  geom_text(aes(label = summarized_data$month_only), hjust = 1.2, vjust = 1.2, size = 3, color = "darkblue") +
+  theme_minimal()
+
+```
+
+```{r}
+# Load necessary libraries
+library(dplyr)
+library(FactoMineR)
+library(factoextra)
+library(ggplot2)
+
+# Step 1: Add a grouping for weekdays vs. weekends (assuming 'day_type' column is 1 for weekdays and 2 for weekends)
+summarized_data <- joined_df %>%
+  mutate(
+    month_only = format(as.Date(month), "%m"),  # Extract only the month
+    type = ifelse(day_type == 1, "Weekday", "Weekend")  # Assign Weekday or Weekend
+  ) %>%
+  group_by(month_only, type) %>%
+  summarise(
+    avg_delays = mean(delays, na.rm = TRUE),
+    avg_alert_count = mean(alert_count, na.rm = TRUE),
+    avg_tp_passed = mean(tp_passed, na.rm = TRUE),
+    avg_tp_sched = mean(tp_sched, na.rm = TRUE),
+    avg_ridership = mean(ridership, na.rm = TRUE)
+  ) %>%
+  mutate(
+    recalculated_wait_assessment = avg_tp_passed / avg_tp_sched
+  ) %>%
+  ungroup()
+
+# Step 2: Prepare data for PCA
+pca_data <- summarized_data %>%
+  select(avg_delays, avg_alert_count, recalculated_wait_assessment, avg_ridership)
+
+# Step 3: Perform PCA
+pca_result <- PCA(pca_data, scale.unit = TRUE, graph = FALSE)
+
+# Step 4: Add grouping information (Type: Weekday/Weekend) to the PCA result
+pca_individuals <- data.frame(
+  pca_result$ind$coord,  # PCA coordinates
+  Type = summarized_data$type,      # Grouping variable (Weekday/Weekend)
+  Month = summarized_data$month_only # Month
+)
+
+# Step 5: Plot PCA Biplot with Color Distinction
+fviz_pca_biplot(
+  pca_result,
+  repel = TRUE,              # Avoid overlapping text
+  geom.ind = "point",        # Points for individuals
+  habillage = pca_individuals$Type, # Grouping by Weekday/Weekend
+  palette = c("darkblue", "darkred"), # Custom colors for groups
+  label = "var",             # Show variable vectors
+  col.var = "steelblue",     # Color for variable vectors
+  title = "PCA Biplot: Weekdays vs. Weekends"
+) +
+  geom_text(
+    aes(x = pca_individuals$Dim.1, y = pca_individuals$Dim.2, label = pca_individuals$Month),
+    inherit.aes = FALSE,
+    size = 3,
+    hjust = 1.2,
+    vjust = 1.2,
+    color = "black"
+  ) +
+  theme_minimal()
+
+
+
+```
+```{r}
+# Load necessary libraries
+library(dplyr)
+library(redav)  # For draw_biplot function
+library(ggplot2)
+
+# Step 1: Add a grouping for weekdays vs. weekends (assuming 'day_type' column is 1 for weekdays and 2 for weekends)
+summarized_data <- joined_df %>%
+  mutate(
+    month_only = format(as.Date(month), "%m"),  # Extract only the month
+    type = ifelse(day_type == 1, "Weekday", "Weekend")  # Assign Weekday or Weekend
+  ) %>%
+  group_by(month_only, type) %>%
+  summarise(
+    avg_delays = mean(delays, na.rm = TRUE),
+    avg_alert_count = mean(alert_count, na.rm = TRUE),
+    avg_tp_passed = mean(tp_passed, na.rm = TRUE),
+    avg_tp_sched = mean(tp_sched, na.rm = TRUE),
+    avg_ridership = mean(ridership, na.rm = TRUE)
+  ) %>%
+  mutate(
+    recalculated_wait_assessment = avg_tp_passed / avg_tp_sched
+  ) %>%
+  ungroup()
+
+# Step 2: Prepare the data for PCA
+pca_data <- summarized_data %>%
+  select(avg_delays, avg_alert_count, recalculated_wait_assessment, avg_ridership)
+
+# Step 3: Add grouping information for weekdays and weekends
+group_labels <- summarized_data$type  # Use the 'type' column (Weekday or Weekend) as the label
+
+# Step 4: Call the draw_biplot function from the redav package
+draw_biplot(
+  pca_data,              # The data on which PCA is to be applied
+  group = group_labels,  # Grouping vector (Weekday/Weekend)
+  title = "PCA Biplot: Weekdays vs. Weekends",  # Title for the plot
+  point_labels = summarized_data$month_only,  # Labels for each point (Month)
+  color_group = c("darkblue", "darkred")      # Colors for Weekday and Weekend
+)
+
+
+```
+```{r}
+# Load necessary libraries
+library(dplyr)
+library(redav)  # For draw_biplot function
+library(ggplot2)
+
+# Step 1: Add a grouping for weekdays vs. weekends (assuming 'day_type' column is 1 for weekdays and 2 for weekends)
+summarized_data <- joined %>%
+  mutate(
+    month_only = format(as.Date(month), "%m"),  # Extract only the month
+    type = ifelse(day_type == 1, "Weekday", "Weekend"),  # Assign Weekday or Weekend
+    month_type = paste0(month_only, "_", type)  # Merge month and type
+  ) %>%
+  group_by(month_type) %>%
+  summarise(
+    avg_delays = mean(delays, na.rm = TRUE),
+    avg_alert_count = mean(alert_count, na.rm = TRUE),
+    avg_tp_passed = mean(tp_passed, na.rm = TRUE),
+    avg_tp_sched = mean(tp_sched, na.rm = TRUE),
+    avg_ridership = mean(ridership, na.rm = TRUE)
+  ) %>%
+  mutate(
+    recalculated_wait_assessment = avg_tp_passed / avg_tp_sched
+  ) %>%
+  ungroup()
+
+# Step 2: Prepare the data for PCA
+pca_data <- summarized_data %>%
+  select(avg_delays, avg_alert_count, recalculated_wait_assessment, avg_ridership)
+
+# Step 3: Add labels for grouping
+group_labels <- summarized_data$month_type  # Use the merged month_type (e.g., "01_Weekday") as the label
+
+# Step 4: Call the draw_biplot function from the redav package
+draw_biplot(
+  pca_data,              # The data on which PCA is to be applied
+  group = group_labels,  # Grouping vector (e.g., "01_Weekday", "02_Weekend", etc.)
+  title = "PCA Biplot: Weekdays vs. Weekends by Month",  # Title for the plot
+  point_labels = group_labels,  # Labels for each point (Month_Type)
+  color_group = c("darkblue", "darkred", "darkgreen", "purple", "orange", "cyan", "pink", "yellow", "brown", "magenta", "darkgray", "coral") # Custom colors
+)
+
+```
+
+```{r}
+ggplot(data = joined_df, aes(x = alert_count, y = tp_passed, size = ridership, color = `wait assessment`)) +
+  geom_point(alpha = 0.7) +
+  scale_size(range = c(3, 10), name = "Ridership") +
+  scale_color_gradient(low = "green", high = "red") +
+  labs(
+    title = "Alert Count vs Trains Passed (Sized by Ridership)",
+    x = "Alert Count",
+    y = "Trains Passed",
+    color = "Wait Assessment"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5)
+  )
+
+```
+```{r}
+
+# Load necessary library
+library(ggplot2)
+library(dplyr)
+
+# Summarize data
+summarized_data <- mta_ridership %>%
+  group_by(station_complex, day_type) %>%
+  summarize(total_ridership = sum(ridership, na.rm = TRUE)) %>%
+  mutate(adjusted_ridership = ifelse(day_type == 1, total_ridership / 5, total_ridership / 2)) %>%
+  ungroup()
+
+# Reshape data for plotting
+plot_data <- summarized_data %>%
+  select(station_complex, day_type, adjusted_ridership)
+
+# Create Cleveland dot plot
+ggplot(plot_data, aes(x = adjusted_ridership, y = station_complex, color = as.factor(day_type))) +
+  geom_point(size = 3) +
+  labs(
+    title = "MTA Ridership Cleveland Dot Plot",
+    x = "Adjusted Ridership",
+    y = "Station Complex",
+    color = "Day Type (1: Weekday, 2: Weekend)"
+  ) +
+  theme_minimal()
+
+```
+```{r}
+# Load necessary libraries
+library(ggplot2)
+library(dplyr)
+
+# Summarize data: calculate adjusted ridership for weekdays and weekends
+summarized_data <- mta_ridership %>%
+  group_by(station_complex, day_type) %>%
+  summarize(total_ridership = sum(ridership, na.rm = TRUE)) %>%
+  mutate(adjusted_ridership = ifelse(day_type == 1, total_ridership / 5, total_ridership / 2)) %>%
+  ungroup()
+
+# Calculate total ridership per station across all day types and rank stations
+top_stations <- summarized_data %>%
+  group_by(station_complex) %>%
+  summarize(total_ridership_all = sum(total_ridership, na.rm = TRUE)) %>%
+  arrange(desc(total_ridership_all)) %>%
+  slice_head(n = 20) %>%
+  select(station_complex)
+
+# Filter data for top 20 stations
+plot_data <- summarized_data %>%
+  filter(station_complex %in% top_stations$station_complex)
+
+# Create Cleveland dot plot
+ggplot(plot_data, aes(x = adjusted_ridership, y = reorder(station_complex, total_ridership), color = as.factor(day_type))) +
+  geom_point(size = 3) +
+  labs(
+    title = "MTA Ridership Cleveland Dot Plot (Top 20 Stations)",
+    x = "Adjusted Ridership",
+    y = "Station Complex",
+    color = "Day Type (1: Weekday, 2: Weekend)"
+  ) + 
+  theme_minimal()
+
+```
+
+
+```{r fig.width=10}
+# Load necessary libraries
+library(ggplot2)
+library(dplyr)
+
+# Summarize data: calculate adjusted ridership for weekdays and weekends
+summarized_data <- mta_ridership %>%
+  group_by(station_complex, day_type) %>%
+  summarize(total_ridership = sum(ridership, na.rm = TRUE)) %>%
+  mutate(adjusted_ridership = ifelse(day_type == 1, total_ridership / 5, total_ridership / 2)) %>%
+  ungroup()
+
+# Calculate total ridership per station across all day types and rank stations
+top_stations <- summarized_data %>%
+  group_by(station_complex) %>%
+  summarize(total_ridership_all = sum(total_ridership, na.rm = TRUE)) %>%
+  arrange(desc(total_ridership_all)) %>%
+  slice_head(n = 20) %>%
+  select(station_complex)
+
+# Filter data for top 20 stations
+plot_data <- summarized_data %>%
+  filter(station_complex %in% top_stations$station_complex)
+
+# Create Cleveland dot plot
+ggplot(plot_data, aes(x = adjusted_ridership, y = reorder(station_complex, total_ridership), color = as.factor(day_type))) +
+  geom_point(size = 3) +
+  labs(
+    title = "MTA Ridership Cleveland Dot Plot (Top 20 Stations)",
+    x = "Adjusted Ridership",
+    y = "Station Complex",
+    color = "Day Type (1: Weekday, 2: Weekend)"
+  ) + 
+  scale_x_continuous(
+    expand = c(0.1, 0.1),  # Add padding to both sides of the x-axis (10%)
+    limits = c(0, max(plot_data$adjusted_ridership) * 1.2)  # Extend x-axis to 20% beyond max value
+  ) +
+  theme_minimal()
+
+```
+```{r}
+# Calculate total ridership per station to determine the order of the legend
+station_order <- mta_stationwise_ridership_wd %>%
+  group_by(station_complex) %>%
+  summarize(total_ridership = sum(ridership, na.rm = TRUE)) %>%
+  arrange(desc(total_ridership)) %>%
+  pull(station_complex)  # Extract the station names in sorted order
+
+# Modify the dataset to ensure the factor levels of 'station_complex' are sorted
+mta_stationwise_ridership_wd <- mta_stationwise_ridership_wd %>%
+  mutate(station_complex = factor(station_complex, levels = station_order))
+
+# Plot with sorted legend
+mta_stationwise_ridership_wd |>
+  ggplot(aes(x = month, y = ridership / scale_val_2, color = station_complex)) +
+  geom_line(size = 1) +
+  scale_x_date(
+    limits = c(as.Date("2020-07-01"), as.Date("2024-10-01")), 
+    date_breaks = "2 months", 
+    date_labels = "%b %Y"
+  ) +
+  scale_color_brewer(
+    palette = "Set2",
+    guide = guide_legend(reverse = FALSE)  # Ensure sorted order in the legend
+  ) +
+  labs(
+    x = "Month",
+    y = "Ridership (in millions)",
+    color = "Station"
+  ) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.title = element_text(face = "bold")
+  )
+
+```
+
+```{r}
+# Load necessary libraries
+library(ggplot2)
+library(dplyr)
+library(scales)  # For better formatting of axis labels
+
+# Calculate total ridership per station to determine the order of the legend
+station_order <- mta_stationwise_ridership_wd %>%
+  group_by(station_complex) %>%
+  summarize(total_ridership = sum(ridership, na.rm = TRUE)) %>%
+  arrange(desc(total_ridership)) %>%
+  pull(station_complex)  # Extract the station names in sorted order
+
+# Modify the dataset to ensure the factor levels of 'station_complex' are sorted
+mta_stationwise_ridership_wd <- mta_stationwise_ridership_wd %>%
+  mutate(station_complex = factor(station_complex, levels = station_order))
+
+# Enhanced plot
+mta_stationwise_ridership_wd |>
+  ggplot(aes(x = month, y = ridership / scale_val_2, color = station_complex)) +
+  geom_line(size = 1) +
+  scale_x_date(
+    limits = c(as.Date("2020-07-01"), as.Date("2024-10-01")), 
+    date_breaks = "2 months", 
+    date_labels = "%b %Y"
+  ) +
+  scale_color_viridis_d(option = "C", guide = guide_legend(reverse = FALSE)) + # Better color palette
+  labs(
+    x = "Month",
+    y = "Ridership (in millions)",
+    color = "Station"
+  ) +
+  theme_minimal(base_size = 12) +  # Minimal theme with readable font size
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.title = element_text(face = "bold", size = 10),
+    legend.text = element_text(size = 9),
+    legend.key.width = unit(1, "cm"),  # Adjust width of legend keys for readability
+    plot.title = element_text(face = "bold", size = 14),
+    plot.subtitle = element_text(size = 12),
+    panel.grid.major = element_line(color = "gray90"),  # Subtle gridlines
+    panel.grid.minor = element_blank()
+  ) +
+  labs(
+    title = "MTA Ridership Trends for Top 150 Stations",
+    subtitle = "Weekday ridership over time (2020–2024)",
+    x = "Month",
+    y = "Ridership (in millions)",
+    color = "Station"
+  )
+
+```
+
+```{r}
+# Prepare the data for mapping (example assumes zip_code is present in your data)
+mta_stationwise_total_ridership <- mta_stationwise_ridership_wd %>%
+  group_by(station_complex) %>%
+  summarize(
+    total_ridership = sum(ridership, na.rm = TRUE),
+    zip_code = unique(zip_code)  # Replace this with actual zip code or region mapping
+  )
+library(choroplethr)
+library(choroplethrZip)
+
+# Summarize ridership by zip code
+zip_ridership <- mta_stationwise_total_ridership %>%
+  group_by(zip_code) %>%
+  summarize(value = sum(total_ridership, na.rm = TRUE))
+
+# Ensure zip_code is treated as a character
+zip_ridership$region <- as.character(zip_ridership$zip_code)
+
+# Plot the choropleth map
+zip_choropleth(zip_ridership,
+               title = "Total MTA Ridership by Region",
+               legend = "Total Ridership",
+               num_colors = 7) +
+  scale_fill_viridis_c(option = "C") +  # Use a better color palette
+  labs(
+    caption = "Data Source: MTA Ridership Data (2020–2024)"
+  )
+
 ```
 
