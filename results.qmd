@@ -1,4 +1,4 @@
-# Results
+# Exploring the Subway
 
 This projects aims at exploring the different data around the New York subway system that is run by the MTA. The datasets here have been used from the nyc open data repository. Here, we explore the various trends with the data in this respect. 
 
@@ -63,9 +63,9 @@ Here's a graph faceted over the delays over the weekdays and weekends in the NYC
 
 ```{r fig.width=10, echo=FALSE}
 #| warning: false
-# Define a mapping of subway lines to their respective groups
+
 subway_groups <- data.frame(
-  line = c("1", "2", "3", "4", "5", "6", "7", "A", "C", "E", "B", "D", "F", "M", "G", "J", "Z", "L", "N", "Q", "R", "W"),
+  line = c("1", "2", "3", "4", "5", "6", "7", "A", "C", "E", "B", "D", "F", "M", "G", "J", "Z", "JZ", "L", "N", "Q", "R", "W", "S 42nd", "S Fkln", "S Rock"),
   group = c(
     "IRT - Broadway–Seventh Avenue Line",  # 1, 2, 3
     "IRT - Broadway–Seventh Avenue Line", 
@@ -84,40 +84,44 @@ subway_groups <- data.frame(
     "IND - Crosstown Line",                # G
     "BMT - Nassau Street Line",            # J, Z
     "BMT - Nassau Street Line", 
+    "BMT - Nassau Street Line",
     "BMT - Canarsie Line",                 # L
     "BMT - Broadway Line",                 # N, Q, R, W
     "BMT - Broadway Line", 
     "BMT - Broadway Line", 
-    "BMT - Broadway Line"
+    "BMT - Broadway Line",
+    "Shuttles",                            # All S lines
+    "Shuttles",
+    "Shuttles"
   )
 )
 
 delays_category <- subway_train_delays[,!names(subway_train_delays) %in% c("subcategory")]
 pdf<- delays_category |> group_by(line, reporting_category, month, day_type) |> summarise(delays = sum(delays))
 
-# Join the original dataset with the subway groups
+
 pdf_with_groups <- pdf |>
   left_join(subway_groups, by = "line")
 
-# Calculate total delays per group and month
 total_delays_per_group <- pdf_with_groups |>
   group_by(group, month) |>
   summarize(total_delays = sum(delays, na.rm = TRUE), .groups = "drop")
 
-# Define custom colors for the subway groups (based on NYC Subway colors)
+# custom colors based on NYC Subway colors
 subway_group_colors <- c(
-  "IRT - Broadway–Seventh Avenue Line" = "#EE352E", # Red
+  "IRT - Broadway–Seventh Avenue Line" = "#EE352E",# Red
   "IRT - Lexington Avenue Line" = "#00933C",       # Green
   "IRT - Flushing Line" = "#B933AD",               # Purple
   "IND - Eighth Avenue Line" = "#0039A6",          # Blue
   "IND - Sixth Avenue Line" = "#FF6319",           # Orange
   "IND - Crosstown Line" = "#6CBE45",              # Light Green
   "BMT - Nassau Street Line" = "#996633",          # Brown
-  "BMT - Canarsie Line" = "#A7A9AC",               # Gray 
-  "BMT - Broadway Line" = "#FCCC0A"                # Yellow
+  "BMT - Canarsie Line" = "#A7A9AC",               # Gray
+  "BMT - Broadway Line" = "#FCCC0A",               # Yellow
+  "Shuttles" = "#808183"                           # Dark Slate Gray
 )
 
-# Define custom legend labels, showing group name and corresponding lines
+
 custom_legend_labels <- c(
   "IRT - Broadway–Seventh Avenue Line" = "1, 2, 3",
   "IRT - Lexington Avenue Line" = "4, 5, 6",
@@ -127,19 +131,18 @@ custom_legend_labels <- c(
   "IND - Crosstown Line" = "Crosstown (G)",
   "BMT - Nassau Street Line" = "J, Z",
   "BMT - Canarsie Line" = "L",
-  "BMT - Broadway Line" = "N, Q, R, W"
+  "BMT - Broadway Line" = "N, Q, R, W",
+  "Shuttles" = "S lines"
 )
 
-# Add a label column for day_type
+
 pdf_with_groups <- pdf_with_groups |>
   mutate(day_label = ifelse(day_type == 1, "Weekday", "Weekend"))
 
-# Calculate total delays per group, month, and day type
 total_delays_per_group_day <- pdf_with_groups |>
   group_by(group, month, day_label) |>
   summarize(total_delays = sum(delays, na.rm = TRUE), .groups = "drop")
 
-# Create the faceted plot
 ggplot(total_delays_per_group_day, aes(x = month, y = total_delays, color = group, group = group)) +
   geom_line(linewidth = 1) +
   
@@ -171,14 +174,12 @@ On further digging, we found that ([a lack of workers](https://www.nytimes.com/2
 It is also important to correlate the same with the reasons mentioned in the dataset, which we perform below. 
 
 ```{r fig.width=10, echo=FALSE}
-# Calculate total delays per group, month, and reporting category
 total_delays_per_group_category <- pdf_with_groups |>
   group_by(group, month, reporting_category) |>
   summarize(total_delays = sum(delays, na.rm = TRUE), .groups = "drop")
 
-# Create the faceted plot by reporting category
 ggplot(total_delays_per_group_category, aes(x = month, y = total_delays, color = group, group = group)) +
-  geom_line(linewidth = 1) +
+  geom_line(linewidth = 0.8) +
   
   scale_color_manual(values = subway_group_colors, labels = custom_legend_labels) +
   labs(
@@ -208,7 +209,7 @@ Here, we clearly see that crew availability was a problem pretty much through th
 The above graph shows a raw number of the number of delays due to each category, but it is interesting to see a more nuanced approach to the same number.
 
 ```{r fig.width=10, echo=FALSE}
-# Normalize the total delays by dividing weekdays by 6 and weekends by 2
+# Normalize the total delays by dividing weekdays by 5 and weekends by 2
 delays_by_group_category_day_normalized <- pdf_with_groups |>
   group_by(group, reporting_category, day_label) |>
   summarize(total_delays = sum(delays, na.rm = TRUE), .groups = "drop") |>
@@ -216,7 +217,6 @@ delays_by_group_category_day_normalized <- pdf_with_groups |>
     normalized_delays = ifelse(day_label == "Weekday", total_delays / 5, total_delays / 2)
   )
 
-# Create the normalized side-by-side faceted stacked bar chart
 ggplot(delays_by_group_category_day_normalized, aes(x = reporting_category, y = normalized_delays, fill = group)) +
   geom_bar(stat = "identity", position = "stack") +  # Use 'stack' for normalized counts
   scale_fill_manual(values = subway_group_colors, labels = custom_legend_labels) +
@@ -335,30 +335,25 @@ linewise_service_alerts <- linewise_service_alerts |>
 linewise_service_alerts <- linewise_service_alerts |>
   mutate(Date = as.Date(Date, format = "%m/%d/%Y %I:%M:%S %p"))
 
-# Add a new column `DayType` to indicate weekday or weekend
 linewise_service_alerts <- linewise_service_alerts |>
   mutate(DayType = if_else(wday(Date) %in% c(1, 7), "Weekend", "Weekday"))
 
-# Step 1: Filter for NYCT subway data
 filtered_alerts <- linewise_service_alerts |>
   filter(Agency == "NYCT Subway") |>
-  mutate(Date = as.Date(Date))  # Ensure Date is in proper format
+  mutate(Date = as.Date(Date))  
 
-# Step 2: Calculate daily alert counts
 daily_alerts <- filtered_alerts |>
   group_by(Date, DayType) |>
   summarise(alert_count = n(), .groups = 'drop')  # Count alerts by date and day type
 
-# Step 3: Adjust alert counts for Weekday and Weekend
 daily_alerts <- daily_alerts |>
   mutate(
     adjusted_alert_count = ifelse(DayType == "Weekday", alert_count / 5, alert_count / 2)
   )
 
-# Step 4: Plot the data over the entire time period with smoothing
 ggplot(daily_alerts, aes(x = Date, y = adjusted_alert_count, color = DayType, group = DayType)) +
-  geom_point(size = 1, alpha = 0.6) +  # Optional: Add points for better visibility
-  geom_smooth(se = FALSE, method = "loess", span = 0.3, size = 1.2) +  # Add a smoother line
+  geom_point(size = 1, alpha = 0.6) +  
+  geom_smooth(se = FALSE, method = "loess", span = 0.3, size = 1.2) +  
   scale_color_manual(values = c("Weekday" = "#1f77b4", "Weekend" = "#ff7f0e")) +
   labs(
     title = "Smoothed Normalised Daily Subway Alerts by Day Type",
@@ -386,27 +381,23 @@ During our experimentation, we came across many patterns that did not show any r
 
 ```{r, echo=FALSE}
 
-# Normalize the data by dividing weekday counts by 5 and weekend counts by 2
 normalized_data <- linewise_service_alerts |>
   group_by(`Status Label`, DayType) |>
   summarise(Count = n(), .groups = "drop") |>
   mutate(NormalizedCount = if_else(DayType == "Weekday", Count / 5, Count / 2))
 
-# Aggregate the total normalized count for each Status Label
 status_summary <- normalized_data |>
   group_by(`Status Label`) |>
   summarise(TotalNormalizedCount = sum(NormalizedCount), .groups = "drop") |>
   arrange(desc(TotalNormalizedCount)) |>
   slice_head(n = 10)
 
-# Filter the dataset to include only the top 5 Status Labels
 top_status_labels <- status_summary$`Status Label`
 
 filtered_data <- normalized_data |>
   filter(`Status Label` %in% top_status_labels) |>
   mutate(`Status Label` = factor(`Status Label`, levels = top_status_labels))
 
-# Create the stacked bar chart with normalized counts
 ggplot(filtered_data, aes(x = `Status Label`, y = NormalizedCount, fill = DayType)) +
   geom_bar(stat = "identity", position = "stack") +
   labs(
@@ -482,18 +473,15 @@ So, we see the total number of riders from every subway station.
 
 ```{r fig.width=8, echo=FALSE}
 #| warning: false
-# Load necessary libraries
 library(ggplot2)
 library(dplyr)
 
-# Summarize data: calculate adjusted ridership for weekdays and weekends
 summarized_data <- mta_ridership |>
   group_by(station_complex, day_type) |>
   summarize(total_ridership = sum(ridership, na.rm = TRUE)) |>
   mutate(adjusted_ridership = ifelse(day_type == 1, total_ridership / 5, total_ridership / 2)) |>
   ungroup()
 
-# Calculate total ridership per station across all day types and rank stations
 top_stations <- summarized_data |>
   group_by(station_complex) |>
   summarize(total_ridership_all = sum(total_ridership, na.rm = TRUE)) |>
@@ -501,11 +489,9 @@ top_stations <- summarized_data |>
   slice_head(n = 20) |>
   select(station_complex)
 
-# Filter data for top 20 stations
 plot_data <- summarized_data |>
   filter(station_complex %in% top_stations$station_complex)
 
-# Create Cleveland dot plot
 ggplot(plot_data, aes(x = adjusted_ridership, y = reorder(station_complex, total_ridership), color = as.factor(day_type))) +
   geom_point(size = 3) +
   labs(
@@ -545,20 +531,16 @@ mta_stationwise_ridership_wd <- mta_ridership_new |>
   mutate(month = make_date(year, month, 1)) |>
   filter(day_type == 1, station_complex %in% stations)
 
-
-
-# Calculate total ridership per station to determine the order of the legend
+# for lengend
 station_order <- mta_stationwise_ridership_wd |>
   group_by(station_complex) |>
   summarize(total_ridership = sum(ridership, na.rm = TRUE)) |>
   arrange(desc(total_ridership)) |>
   pull(station_complex)  # Extract the station names in sorted order
 
-# Modify the dataset to ensure the factor levels of 'station_complex' are sorted
 mta_stationwise_ridership_wd <- mta_stationwise_ridership_wd |>
   mutate(station_complex = factor(station_complex, levels = station_order))
 
-# Enhanced plot
 mta_stationwise_ridership_wd |>
   ggplot(aes(x = month, y = ridership / scale_val_2, color = station_complex)) +
   geom_line(size = 1) +
@@ -567,21 +549,21 @@ mta_stationwise_ridership_wd |>
     date_breaks = "2 months", 
     date_labels = "%b %Y"
   ) +
-  scale_color_viridis_d(option = "C", guide = guide_legend(reverse = FALSE)) + # Better color palette
+  scale_color_viridis_d(option = "C", guide = guide_legend(reverse = FALSE)) +
   labs(
     x = "Month",
     y = "Ridership (in millions)",
     color = "Station"
   ) +
-  theme_minimal(base_size = 12) +  # Minimal theme with readable font size
+  theme_minimal(base_size = 12) + 
   theme(
     axis.text.x = element_text(angle = 45, hjust = 1),
     legend.title = element_text(face = "bold", size = 10),
     legend.text = element_text(size = 9),
-    legend.key.width = unit(1, "cm"),  # Adjust width of legend keys for readability
+    legend.key.width = unit(1, "cm"), 
     plot.title = element_text(face = "bold", size = 14),
     plot.subtitle = element_text(size = 12),
-    panel.grid.major = element_line(color = "gray90"),  # Subtle gridlines
+    panel.grid.major = element_line(color = "gray90"),  
     panel.grid.minor = element_blank()
   ) +
   labs(
