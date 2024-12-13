@@ -1,4 +1,4 @@
-# Conclusion
+# Conclusion and Summary
 
 Through this project, we have explored the reliability of the New York Subway system and its overall ridership since the 2020 pandemic. The Insights we have gained through the various graphs could be useful to the MTA team working on the servicing. The main insights that we have gained can be summarised as : 
 

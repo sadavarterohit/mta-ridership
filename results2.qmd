@@ -41,7 +41,7 @@ pdf<- delays_category |> group_by(line, reporting_category, month, day_type) |> 
 ```{r}
 # Define a mapping of subway lines to their respective groups
 subway_groups <- data.frame(
-  line = c("1", "2", "3", "4", "5", "6", "7", "A", "C", "E", "B", "D", "F", "M", "G", "J", "Z", "L", "N", "Q", "R", "W"),
+  line = c("1", "2", "3", "4", "5", "6", "7", "A", "C", "E", "B", "D", "F", "M", "G", "J", "Z", "JZ", "L", "N", "Q", "R", "W", "S 42nd", "S Fkln", "S Rock"),
   group = c(
     "IRT - Broadway–Seventh Avenue Line",  # 1, 2, 3
     "IRT - Broadway–Seventh Avenue Line", 
@@ -60,11 +60,15 @@ subway_groups <- data.frame(
     "IND - Crosstown Line",                # G
     "BMT - Nassau Street Line",            # J, Z
     "BMT - Nassau Street Line", 
+    "BMT - Nassau Street Line",
     "BMT - Canarsie Line",                 # L
     "BMT - Broadway Line",                 # N, Q, R, W
     "BMT - Broadway Line", 
     "BMT - Broadway Line", 
-    "BMT - Broadway Line"
+    "BMT - Broadway Line",
+    "Shuttles",                            # All S lines
+    "Shuttles",
+    "Shuttles"
   )
 )
 
@@ -84,15 +88,16 @@ total_delays_per_group <- pdf_with_groups %>%
 
 # Define custom colors for the subway groups (based on NYC Subway colors)
 subway_group_colors <- c(
-  "IRT - Broadway–Seventh Avenue Line" = "#EE352E", # Red
+  "IRT - Broadway–Seventh Avenue Line" = "#EE352E",# Red
   "IRT - Lexington Avenue Line" = "#00933C",       # Green
   "IRT - Flushing Line" = "#B933AD",               # Purple
   "IND - Eighth Avenue Line" = "#0039A6",          # Blue
   "IND - Sixth Avenue Line" = "#FF6319",           # Orange
   "IND - Crosstown Line" = "#6CBE45",              # Light Green
   "BMT - Nassau Street Line" = "#996633",          # Brown
-  "BMT - Canarsie Line" = "#A7A9AC",               # Gray 
-  "BMT - Broadway Line" = "#FCCC0A"                # Yellow
+  "BMT - Canarsie Line" = "#A7A9AC",               # Gray
+  "BMT - Broadway Line" = "#FCCC0A",               # Yellow
+  "Shuttles" = "#808183"                           # Dark Slate Gray
 )
 
 # Define custom legend labels, showing group name and corresponding lines

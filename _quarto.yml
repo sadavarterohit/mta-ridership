@@ -21,6 +21,7 @@ book:
     - data.qmd
     - results.qmd
     - d3graph.qmd
+    - test.qmd
     - conclusion.qmd
 
 format:

@@ -1,0 +1,25 @@
+# Where is my audience?
+
+<style>
+  * {
+    font-family: sans-serif;
+  }
+</style> 
+
+<div id="plot">
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script src="scripts/add_d3.js"></script>
+
+<br/>
+
+This tool is a minor idea to use our work to help street performers and hawkers in NYC to find the highest footfall at a particular station based on the subway line they want to work in. 
+
+
+This page is named so in honour of all the street artists who make NYC culture rich. We take for granted the talent that is present on these subway lines, and nobody wants to listen to them while they perform some of the most beautiful and complex musical pieces and artforms possible. 
+
+Note on how to use : Please click the checkboxes to find all the the stations on those lines with the maximum ridership for weekday and / or weekend as per need.
+
+
+Since there are no real insights to be drawn from this, this is just an additional part of the project that was stitched together, in an attempt to create something that can help anyone who might be using the application as well. The insights for this graph are more DIY. Please refer the previous graphs for insights. Consider this to be more of an appendix.
